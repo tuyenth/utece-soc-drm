@@ -1,0 +1,188 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_PREREQ(2.50)
+AC_INIT(common/GUI-QT/main.cpp)
+
+AM_INIT_AUTOMAKE(drm,1.2.4)
+
+
+AM_CONFIG_HEADER(config.h)
+
+
+dnl Checks for programs
+AC_PROG_LIBTOOL
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+AC_CHECK_PROGS(RPMBUILD, rpmbuild, rpm)
+AC_SUBST(LIBTOOL_DEPS)
+
+
+dnl Configuration Arguments
+
+AC_ARG_ENABLE( alsa, [  --enable-alsa         use alsa sound lib], enable_alsa=$enableval, enable_alsa=no)
+
+AC_ARG_ENABLE( sound,[  --enable-sound        generic sound support], enable_sound=$enableval, enable_sound=yes)
+
+AC_ARG_ENABLE( simulation,[  --enable-simulation   simulation mode], enable_simulation=$enableval, enable_simulation=no)
+
+AC_ARG_WITH( qtgui,[  --with-qtgui            use GUI QT],WITHQTGUI=$withval, WITHQTGUI=yes)
+
+AC_ARG_WITH( qtdir,[  --with-qtdir=path to QT],QTDIR=$withval)
+
+AC_ARG_WITH( faad2,[  --with-faad2            use faad2 library for decoding AAC audio],WITHFAAD2=$withval, WITHFAAD2=yes)
+
+AC_ARG_WITH( faac,[  --with-faac              use faac library for encoding AAC audio],WITHFAAC=$withval, WITHFAAC=no)
+
+AC_ARG_WITH( journaline,[  --with-journaline       support Journaline],WITHJOURNALINE=$withval, WITHJOURNALINE=no)
+
+AC_ARG_WITH( hamlib,[  --with-hamlib           use hamlib library],WITHHAMLIB=$withval, WITHHAMLIB=no)
+
+AC_ARG_WITH( freeimage,[  --with-freeimage        use FreeImage library],WITHFREEIMAGE=$withval, WITHFREEIMAGE=no)
+
+
+if test "$enable_simulation" = "yes"; then
+	dnl Only minimal configuration for simulation
+	enable_alsa=no
+	enable_sound=no
+	WITHQTGUI=no
+	WITHFAAD2=no
+	WITHFAAC=no
+	WITHJOURNALINE=no
+	WITHHAMLIB=no
+	WITHFREEIMAGE=no
+fi
+
+if test "$enable_alsa" = "yes"; then
+	AC_CHECK_HEADER(sys/asoundlib.h, , enable_alsa=no)
+	AC_CHECK_LIB(asound, snd_pcm_open, , enable_alsa=no)
+	if test "$enable_alsa" = "no"; then
+		AC_MSG_WARN( "*** Could not find libasound. Switching to --disable-alsa" )
+	else
+		AC_DEFINE(USE_ALSA, 1, [Define if you want to use the ALSA audio lib])
+		enable_sound=yes
+	fi
+fi
+
+if test "$enable_sound" = "yes"; then
+
+	AC_DEFINE(WITH_SOUND, 1, [Define if you want to use sound])
+	if (test "$enable_alsa" = "no")
+	then
+		
+		dnl fall back is to use /dev/dsp
+		AC_DEFINE(USE_DEVDSP, 1, [Define if you want to use /dev/dsp for sound])
+	fi
+fi
+
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_LANG_CPLUSPLUS
+
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+dnl Checks for some external libraries that need to be installed
+AC_LANG(C++)
+
+dnl fftw ------------------------------------------------------------------------
+AC_SEARCH_LIBS(fftw_create_plan, dfftw fftw, , exit 1)
+AC_SEARCH_LIBS(rfftw, drfftw rfftw, , exit 1)
+AC_CHECK_HEADERS(dfftw.h fftw.h)
+AC_CHECK_HEADERS(drfftw.h rfftw.h)
+
+dnl QT --------------------------------------------------------------------------
+if test "x$WITHQTGUI" = xyes; then
+	if test "no$QTDIR" = "no"; then
+		AC_MSG_ERROR( "*** Please set QTDIR ***" )
+	fi
+
+	saved_ldflags="$LDFLAGS"
+	LDFLAGS="$LDFLAGS -L$QTDIR/lib"
+
+	AC_CHECK_LIB(qt-mt, main, ,exit 1)
+
+	AC_CHECK_FILE($QTDIR/include/qthread.h,  , exit 1)
+	CXXFLAGS="$CXXFLAGS -I$QTDIR/include -DQT_THREAD_SUPPORT -D_REENTRANT"
+	AC_SUBST(CXXFLAGS)
+
+	AC_PATH_PROG(MOC, moc,, "$QTDIR/bin")
+	if test -z "$MOC"; then
+		AC_MSG_ERROR("No moc found in $QTDIR/bin");
+	fi
+	AC_PATH_PROG(UIC, uic,, "$QTDIR/bin")
+	if test -z "$UIC"; then
+		AC_MSG_ERROR("No uic found in $QTDIR/bin");
+	fi
+	AC_SUBST(QTDIR)
+
+	dnl qwt
+
+	AC_HAVE_LIBRARY(qwt, ,exit 1)
+	AC_CHECK_HEADER(/usr/include/qwt/qwt.h, qwt_include="-I/usr/include/qwt", qwt_include="")
+	if test "$qwt_include" = ""; then
+		AC_CHECK_HEADER($QTDIR/include/qwt/qwt.h, qwt_include="-I$QTDIR/include/qwt", exit 1)
+	fi
+	AC_SUBST(QWTINCL, $qwt_include )
+	
+
+	AC_DEFINE(USE_QT_GUI, 1, [Define if you want to use the QT GUI])
+	AM_CONDITIONAL(USE_QT, true)
+else
+	AM_CONDITIONAL(USE_QT, false)
+fi
+
+dnl Hamlib (optional) -----------------------------------------------------------
+if test "x$WITHHAMLIB" = xyes; then
+	AC_CHECK_HEADER(hamlib/rig.h, , have_hamlib=no)
+	AC_CHECK_LIB(hamlib,rig_init, , have_hamlib=no)
+	
+	if test "x$have_hamlib" = "xno"; then
+		AC_MSG_ERROR( "Hamlib library not found" )
+	else
+		AC_CHECK_LIB(hamlib, rig_parse_mode, 
+		AC_DEFINE(HAVE_RIG_PARSE_MODE, 1, [Define if you have Hamlib >= 1.2.1]), )
+	fi
+fi
+
+dnl faad2 -----------------------------------------------------------------------
+if test "x$WITHFAAD2" = xyes; then
+	AC_CHECK_HEADER(faad.h, , have_faad=no)
+	AC_CHECK_LIB(faad,NeAACDecOpen, , exit 1, -lm )
+	AC_CHECK_LIB(faad,NeAACDecInitDRM, , have_faad=no, -lm )
+
+	if test "$have_faad" = "no"; then
+		AC_MSG_ERROR( "*** libfaad build without DRM support ***" )
+	fi
+	AC_DEFINE(USE_FAAD2_LIBRARY, 1, [Define if you want to use the faad2 library])
+fi
+
+dnl faac (optional) -------------------------------------------------------------
+if test "x$WITHFAAC" = xyes; then
+	AC_HAVE_LIBRARY(faac, ,exit 1)
+fi
+
+dnl FreeImage (optional) --------------------------------------------------------
+if test "x$WITHFREEIMAGE" = xyes; then
+	AC_CHECK_HEADER(FreeImage.h, , have_freeimage=no)
+	AC_CHECK_LIB(freeimage,FreeImage_LoadFromHandle, , have_freeimage=no)
+
+	if test "x$have_freeimage" = "xno"; then
+		AC_MSG_ERROR( "FreeImage library not found" )
+	fi
+fi
+
+dnl PUT THIS AT THE END, because FhG Journaline library has undefined symbols
+dnl Journaline (optional) -------------------------------------------------------
+if test "x$WITHJOURNALINE" = xyes; then
+	dnl can't check the library, as it has unresolved symbols
+	AC_CHECK_HEADERS(journaline/NML.h, ,exit 1)
+	AC_DEFINE(HAVE_JOURNALINE, 1, [Define if you have libfhgjournaline])
+	LIBS="-lfhgjournaline $LIBS"
+fi
+
+
+AC_CONFIG_FILES(Makefile linux/Makefile drm.spec)
+AC_OUTPUT

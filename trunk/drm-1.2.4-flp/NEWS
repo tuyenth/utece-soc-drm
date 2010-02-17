@@ -1,0 +1,30 @@
+The Dream development team today releases Dream version 1.2.2.
+
+Dream is a DRM (Digital Radio Mondiale) software receiver and decoder. 
+It is a very complete receiver, featuring compliant decoding of HE AAC v2 
+audio streams, journaline decoding, a feature rich statistics section 
+providing invaluable information about the streams being received, and automatic 
+update of available stations from the web, among several other features.
+
+It also features a limited transmission mode, that uses the FAAC AAC encoder.
+
+Dream is multiplatform (GUI is done on Qt) and has already been tested on Win32 
+and Linux.
+
+Changes since version 1.1:
+
+There's not much of a changelog this time. Logging will be better managed in next 
+version.
+
+- Lots of changes for AM demodulation: a separate main window for AM, noise 
+  reduction, PLL and CW demodulation, changed AM bandpass filter
+
+- SNR spectrum plot implemented in DRM-mode, which information is used to improve 
+  reception under interference situations
+
+- Added history plots for SNR/Audio, Delay/Doppler and Frequency/Sample Rate
+
+- Small improvements and bug fixes
+
+The source files are available here:
+http://sourceforge.net/project/showfiles.php?group_id=71084&package_id=70555&release_id=319450
