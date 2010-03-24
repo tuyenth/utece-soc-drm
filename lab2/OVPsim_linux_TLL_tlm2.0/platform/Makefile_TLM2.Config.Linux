@@ -1,0 +1,8 @@
+# Configuration
+
+# Set this to your SystemC installation
+SYSTEMC  = /usr/local/packages/systemc-2.2.0
+
+# Set this to your TLM installation
+TLM_HOME = /usr/local/packages/systemc-tlm-2.0.1
+ 

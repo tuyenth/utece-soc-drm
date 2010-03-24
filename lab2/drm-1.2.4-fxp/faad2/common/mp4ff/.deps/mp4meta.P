@@ -1,0 +1,2 @@
+mp4meta.o: mp4meta.c
+mp4meta.c :

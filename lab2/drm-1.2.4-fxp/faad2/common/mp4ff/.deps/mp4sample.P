@@ -1,0 +1,51 @@
+mp4sample.o: mp4sample.c \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdlib.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/features.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/predefs.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/cdefs.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wordsize.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/gnu/stubs.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.2.3/include/stddef.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/types.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/types.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/typesizes.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/time.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/endian.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/endian.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/select.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/select.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/sigset.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/time.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/sysmacros.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/pthreadtypes.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/alloca.h \
+  mp4ffint.h mp4ff_int_types.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h \
+  ../../config.h
+mp4sample.c :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdlib.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/features.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/predefs.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/cdefs.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wordsize.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/gnu/stubs.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.2.3/include/stddef.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/types.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/types.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/typesizes.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/time.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/endian.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/endian.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/select.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/select.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/sigset.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/time.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/sysmacros.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/pthreadtypes.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/alloca.h :
+mp4ffint.h :
+mp4ff_int_types.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h :
+../../config.h :

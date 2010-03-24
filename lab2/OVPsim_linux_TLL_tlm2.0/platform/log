@@ -1,0 +1,74 @@
+make -f Makefile_TLM2.Linux CPP="g++ -m32" LD="g++ -m32"	\
+		PROCESSOR=arm 			\
+		COMPONENT_INCS="-IPeripheral_TLM2.0_Wrappers"	\
+		COMPONENT_OBJS="Build/Linux/TLL6219.o Build/Linux/TLL5000.o   "	\
+		PLATFORM=TLL_tlm2.0			\
+		all
+make[1]: Entering directory `/misc/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform'
+mkdir -p Build/Linux
+echo "Compiling Build/Linux/TLL_tlm2.0.o"
+Compiling Build/Linux/TLL_tlm2.0.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c TLL_tlm2.0.cpp -o Build/Linux/TLL_tlm2.0.o
+Vector.h: In copy constructor ‘CVector<TData>::CVector(const CVector<TData>&) [with TData = int]’:
+MyViterbiAll.h:555:   instantiated from here
+Vector.h:118: warning: ‘CVector<int>::iVectorSize’ will be initialized after
+Vector.h:117: warning:   ‘int CVector<int>::iBitArrayCounter’
+Vector.h:52: warning:   when initialized here
+echo "Compiling Build/Linux/advanceTime.o"
+Compiling Build/Linux/advanceTime.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c ImpPublic_source_host_tlm2.0/advanceTime.cpp -o Build/Linux/advanceTime.o
+echo "Compiling Build/Linux/icmCpu.o"
+Compiling Build/Linux/icmCpu.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c ImpPublic_source_host_tlm2.0/icmCpu.cpp -o Build/Linux/icmCpu.o
+echo "Compiling Build/Linux/icmPeripheral.o"
+Compiling Build/Linux/icmPeripheral.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c ImpPublic_source_host_tlm2.0/icmPeripheral.cpp -o Build/Linux/icmPeripheral.o
+echo "Compiling Build/Linux/icmPlatform.o"
+Compiling Build/Linux/icmPlatform.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c ImpPublic_source_host_tlm2.0/icmPlatform.cpp -o Build/Linux/icmPlatform.o
+echo "Compiling Build/Linux/icmCpuManager.o"
+Compiling Build/Linux/icmCpuManager.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c /usr/local/packages/Imperas.20100122.0/ImpPublic/source/host/icm/icmCpuManager.cxx -o Build/Linux/icmCpuManager.o
+echo "Compiling Build/Linux/busMemory.o"
+Compiling Build/Linux/busMemory.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c SystemC_TLM2.0_Common_platform/busMemory.cpp -o Build/Linux/busMemory.o
+echo "Compiling Build/Linux/simpleMemory.o"
+Compiling Build/Linux/simpleMemory.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c SystemC_TLM2.0_Common_platform/simpleMemory.cpp -o Build/Linux/simpleMemory.o
+echo "Compiling Build/Linux/report.o"
+Compiling Build/Linux/report.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c SystemC_TLM2.0_Common_platform/report.cpp -o Build/Linux/report.o
+echo "Compiling Build/Linux/TLL6219.o"
+Compiling Build/Linux/TLL6219.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c TLL6219.cpp -o Build/Linux/TLL6219.o
+echo "Compiling Build/Linux/TLL5000.o"
+Compiling Build/Linux/TLL5000.o
+g++ -m32 -g -Wall -Wno-long-long -DSC_INCLUDE_DYNAMIC_PROCESSES  -I/usr/local/packages/systemc-2.2.0/include -I/usr/local/packages/systemc-tlm-2.0.1/include/tlm -IImpPublic_include_host_tlm2.0 -IProcessor_TLM2.0_Wrapper -I/usr/local/packages/Imperas.20100122.0/ImpPublic/include/host -ISystemC_TLM2.0_Common_platform -IPeripheral_TLM2.0_Wrappers -m32 -c TLL5000.cpp -o Build/Linux/TLL5000.o
+Vector.h: In copy constructor ‘CVector<TData>::CVector(const CVector<TData>&) [with TData = int]’:
+MyViterbiAll.h:555:   instantiated from here
+Vector.h:118: warning: ‘CVector<int>::iVectorSize’ will be initialized after
+Vector.h:117: warning:   ‘int CVector<int>::iBitArrayCounter’
+Vector.h:52: warning:   when initialized here
+g++ -m32 -o TLL_tlm2.0.Linux.exe Build/Linux/TLL_tlm2.0.o Build/Linux/advanceTime.o Build/Linux/icmCpu.o Build/Linux/icmPeripheral.o Build/Linux/icmPlatform.o Build/Linux/icmCpuManager.o Build/Linux/busMemory.o Build/Linux/simpleMemory.o Build/Linux/report.o Build/Linux/TLL6219.o Build/Linux/TLL5000.o    -L/usr/local/packages/systemc-2.2.0/lib-linux -L/usr/local/packages/Imperas.20100122.0/bin/Linux -lsystemc -lRuntimeLoader
+Build/Linux/TLL5000.o: In function `MyViterbi::MyDecode()':
+/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../../include/c++/4.1.2/new:94: multiple definition of `MyViterbi::MyDecode()'
+Build/Linux/TLL_tlm2.0.o:/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:272: first defined here
+Build/Linux/TLL5000.o: In function `MyViterbi::MyGenPuncPatTable(ECodScheme, EChanType, int, int, int, int, int, int, int)':
+/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:567: multiple definition of `MyViterbi::MyGenPuncPatTable(ECodScheme, EChanType, int, int, int, int, int, int, int)'
+Build/Linux/TLL_tlm2.0.o:/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:567: first defined here
+Build/Linux/TLL5000.o: In function `MyViterbi::MyInit(ECodScheme, EChanType, int, int, int, int, int, int, int)':
+/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:542: multiple definition of `MyViterbi::MyInit(ECodScheme, EChanType, int, int, int, int, int, int, int)'
+Build/Linux/TLL_tlm2.0.o:/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:542: first defined here
+Build/Linux/TLL5000.o: In function `MyViterbi::initiatorTransport(tlm::tlm_generic_payload&, sc_core::sc_time&)':
+/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:134: multiple definition of `MyViterbi::initiatorTransport(tlm::tlm_generic_payload&, sc_core::sc_time&)'
+Build/Linux/TLL_tlm2.0.o:/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:134: first defined here
+Build/Linux/TLL5000.o: In function `MyViterbi':
+/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:126: multiple definition of `MyViterbi::MyViterbi(sc_core::sc_module_name)'
+Build/Linux/TLL_tlm2.0.o:/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:126: first defined here
+Build/Linux/TLL5000.o: In function `MyViterbi':
+/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:126: multiple definition of `MyViterbi::MyViterbi(sc_core::sc_module_name)'
+Build/Linux/TLL_tlm2.0.o:/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform/MyViterbiAll.h:126: first defined here
+collect2: ld returned 1 exit status
+make[1]: *** [TLL_tlm2.0.Linux.exe] Error 1
+make[1]: Leaving directory `/misc/scratch/wsu/lab2/tutorial/OVPsim_linux_TLL_tlm2.0/platform'
+make: *** [all] Error 2
