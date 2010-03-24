@@ -1,0 +1,94 @@
+# OVP TLM2.0 SimpleMultiprocesor  example for Linux
+include Makefile_TLM2.Config.Linux
+
+# common
+COMMON=SystemC_TLM2.0_Common_platform
+
+# imperas models
+IMPERAS_MODELS    =$(IMPERAS_HOME)/ImperasLib/source
+IMPERAS_OVPTLM_SRC=ImpPublic_source_host_tlm2.0
+IMPERAS_OVPTLM_INC=ImpPublic_include_host_tlm2.0
+
+PROCESSOR_WRAP_SRC=Processor_TLM2.0_Wrapper
+
+ICM_SRC =$(IMPERAS_HOME)/ImpPublic/source/host/icm
+ICM_INC =$(IMPERAS_HOME)/ImpPublic/include/host
+
+SYSTEMC_INC_DIR      = $(SYSTEMC)/include
+SYSTEMC_LIB_DIR      = $(SYSTEMC)/lib-linux
+TLM_INC_DIR          = $(TLM_HOME)/include/tlm
+IMPERAS_LIB          = $(IMPERAS_HOME)/bin/$(ARCH)
+
+# tools
+DEL     = rm
+MKDIR   = mkdir
+CPP     = g++
+LD      = g++
+OPT     =
+MAKE    = make
+
+OBJ     = o
+ARCH    = Linux
+
+INCS = \
+    -I$(SYSTEMC_INC_DIR) \
+    -I$(TLM_INC_DIR) \
+    -I$(IMPERAS_OVPTLM_INC)\
+    -I$(PROCESSOR_WRAP_SRC) \
+    -I$(ICM_INC)  \
+    -I$(COMMON)
+
+#FLAGS   = -g -Wall -Wno-long-long -Werror \
+#          -DSC_INCLUDE_DYNAMIC_PROCESSES \
+
+FLAGS   = -g -Wall -Wno-long-long \
+          -DSC_INCLUDE_DYNAMIC_PROCESSES \
+
+LDFLAGS = -L$(SYSTEMC_LIB_DIR) \
+           -L$(IMPERAS_LIB) \
+           -lsystemc -lRuntimeLoader
+
+CFLAGS = $(FLAGS) $(INCS) $(COMPONENT_INCS) -m32
+
+
+PLATFORM_OBJ?=$(PLATFORM).$(OBJ)
+PLATFORM_EXE?=$(PLATFORM).$(ARCH).exe
+
+OBJS =  \
+        Build/$(ARCH)/$(PLATFORM_OBJ) \
+        Build/$(ARCH)/advanceTime.$(OBJ) \
+        Build/$(ARCH)/icmCpu.$(OBJ) \
+        Build/$(ARCH)/icmPeripheral.$(OBJ) \
+        Build/$(ARCH)/icmPlatform.$(OBJ) \
+        Build/$(ARCH)/icmCpuManager.$(OBJ) \
+        Build/$(ARCH)/busMemory.$(OBJ) \
+        Build/$(ARCH)/simpleMemory.$(OBJ) \
+        Build/$(ARCH)/report.$(OBJ) \
+		$(COMPONENT_OBJS)
+
+all: Build/$(ARCH) $(PLATFORM_EXE) 
+
+clean:
+	$(DEL) -f Build/$(ARCH)/*.$(OBJ) *.$(ARCH).exe
+
+Build/$(ARCH):
+	$(MKDIR) -p Build/$(ARCH)
+
+Build/$(ARCH)/%.$(OBJ): $(IMPERAS_OVPTLM_SRC)/%.cpp
+	$(V) echo "Compiling $@"
+	$(V) $(CPP) $(CFLAGS) -c $< -o $@
+
+Build/$(ARCH)/%.$(OBJ): $(ICM_SRC)/%.cxx
+	$(V) echo "Compiling $@"
+	$(V) $(CPP) $(CFLAGS) -c $< -o $@
+
+Build/$(ARCH)/%.$(OBJ): $(COMMON)/%.cpp
+	$(V) echo "Compiling $@"
+	$(V) $(CPP) $(CFLAGS) -c $< -o $@
+
+Build/$(ARCH)/%.$(OBJ): %.cpp
+	$(V) echo "Compiling $@"
+	$(V) $(CPP) $(CFLAGS) -c $< -o $@
+	
+$(PLATFORM_EXE): $(OBJS) $(IMPERAS_LIB)/libRuntimeLoader.so
+	$(V) $(LD) -o $@ $(OBJS) $(LDFLAGS)

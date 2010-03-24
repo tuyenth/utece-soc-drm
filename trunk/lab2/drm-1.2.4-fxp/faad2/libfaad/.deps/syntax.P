@@ -1,0 +1,114 @@
+syntax.lo syntax.o : syntax.c common.h ../config.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdio.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/features.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/predefs.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/cdefs.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wordsize.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/gnu/stubs.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.2.3/include/stddef.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/types.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/typesizes.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/libio.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/_G_config.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/wchar.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/gconv.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.2.3/include/stdarg.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/stdio_lim.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/sys_errlist.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/stdio.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/types.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/time.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/endian.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/endian.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/select.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/select.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/sigset.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/time.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/sysmacros.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/pthreadtypes.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/stat.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/stat.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdlib.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/alloca.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/string.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/string.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/string2.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/strings.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/inttypes.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/unistd.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix_opt.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/confname.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/getopt.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/math.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/huge_val.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mathdef.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mathcalls.h \
+  /misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mathinline.h \
+  structs.h cfft.h sbr_dec.h ps_dec.h bits.h analysis.h decoder.h \
+  syntax.h specrec.h huffman.h pulse.h drc.h rvlc.h sbr_syntax.h
+syntax.c :
+common.h :
+../config.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdio.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/features.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/predefs.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/cdefs.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wordsize.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/gnu/stubs.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.2.3/include/stddef.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/types.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/typesizes.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/libio.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/_G_config.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/wchar.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/gconv.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.2.3/include/stdarg.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/stdio_lim.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/sys_errlist.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/stdio.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/types.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/time.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/endian.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/endian.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/select.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/select.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/sigset.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/time.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/sysmacros.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/pthreadtypes.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/stat.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/stat.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdlib.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/alloca.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/string.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/string.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/string2.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/strings.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/inttypes.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/unistd.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix_opt.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/confname.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/getopt.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/math.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/huge_val.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mathdef.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mathcalls.h :
+/misc/linuxws/packages/arm/arm-2008q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mathinline.h :
+structs.h :
+cfft.h :
+sbr_dec.h :
+ps_dec.h :
+bits.h :
+analysis.h :
+decoder.h :
+syntax.h :
+specrec.h :
+huffman.h :
+pulse.h :
+drc.h :
+rvlc.h :
+sbr_syntax.h :
