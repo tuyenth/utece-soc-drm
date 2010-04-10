@@ -9,6 +9,8 @@
 
 #include <ostream>
 
+#define TOTAL_INSTANCES 6
+
 using namespace sc_core;
 using namespace tlm;
 using namespace std;
@@ -70,7 +72,7 @@ public:
 	//module instantiations
 	
 	//Constructor
-	MyViterbi(sc_core::sc_module_name nm, int ser);
+	MyViterbi(sc_core::sc_module_name nm);
 private:
 	CVector<int> MyGenPuncPatTable(ECodScheme eNewCodingScheme,
 		EChanType eNewChannelType,
@@ -88,10 +90,10 @@ private:
 
 	FXP MyDecode();
 		
-	int			iNumOutBits;
-	int			iNumOutBitsWithMemory;
-	CVector<int>		veciTablePuncPat;
-	CMatrix<_DECISIONTYPE>	matdecDecisions;
+	int			iNumOutBits[TOTAL_INSTANCES];
+	int			iNumOutBitsWithMemory[TOTAL_INSTANCES];
+	CVector<int>		veciTablePuncPat[TOTAL_INSTANCES];
+	CMatrix<_DECISIONTYPE>	matdecDecisions[TOTAL_INSTANCES];
 
 	/* Two trellis data vectors are needed for current and old state */
 	int			vecTrelMetric1[MC_NUM_STATES];  // Used to be float
@@ -111,16 +113,17 @@ private:
 	FXP retDecode;
 	//CVector<_DECISION> vecOutputBits;
 	//init input
-	ECodScheme eNewCodingScheme;
-	EChanType eNewChannelType;
-	int iN1;
-	int iN2;
-	int iNewNumOutBitsPartA;
-	int iNewNumOutBitsPartB; 
-	int iPunctPatPartA;
-	int iPunctPatPartB;
-	int iLevel;
+	ECodScheme eNewCodingScheme[TOTAL_INSTANCES];
+	EChanType eNewChannelType[TOTAL_INSTANCES];
+	int iN1[TOTAL_INSTANCES];
+	int iN2[TOTAL_INSTANCES];
+	int iNewNumOutBitsPartA[TOTAL_INSTANCES];
+	int iNewNumOutBitsPartB[TOTAL_INSTANCES]; 
+	int iPunctPatPartA[TOTAL_INSTANCES];
+	int iPunctPatPartB[TOTAL_INSTANCES];
+	int iLevel[TOTAL_INSTANCES];
 
+	//ToBeChanged: should check where this variable is used
 	int mSerial;
 	//status
 	int status;

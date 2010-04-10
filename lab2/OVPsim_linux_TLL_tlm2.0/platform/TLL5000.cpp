@@ -38,30 +38,38 @@ TLL5000::TLL5000  ( sc_core::sc_module_name name,
 
   , m_bus     ("bus")
 
-  , m_viterbi0   ("Viterbi0", 0)
+  , m_viterbi0   ("Viterbi0")
+  /*
   , m_viterbi1   ("Viterbi1", 1)
   , m_viterbi2   ("Viterbi2", 2)
   , m_viterbi3   ("Viterbi3", 3)
   , m_viterbi4   ("Viterbi4", 4)
   , m_viterbi5   ("Viterbi5", 5)
+  */
 
 {
     m_board_1.emi(m_bus.target_socket);
 
     // FPGA hardware
-    m_bus.initiator_socket[0](m_viterbi0.bus);
-    m_bus.initiator_socket[1](m_viterbi1.bus);
+	m_bus.initiator_socket[0](m_viterbi0.bus);
+    /*
+	m_bus.initiator_socket[0](m_viterbi0.bus);
+	m_bus.initiator_socket[1](m_viterbi1.bus);
     m_bus.initiator_socket[2](m_viterbi2.bus);
     m_bus.initiator_socket[3](m_viterbi3.bus);
     m_bus.initiator_socket[4](m_viterbi4.bus);
     m_bus.initiator_socket[5](m_viterbi5.bus);
-    
+    */
+	
+	m_bus.setDecode(0, m_adderLow       , m_adderHigh);
+	
+	/*
 	m_bus.setDecode(0, m_adderLow       , m_adderLow+0x0900);
 	m_bus.setDecode(1, m_adderLow+0x1000, m_adderLow+0x1900);
 	m_bus.setDecode(2, m_adderLow+0x2000, m_adderLow+0x2900);
 	m_bus.setDecode(3, m_adderLow+0x3000, m_adderLow+0x3900);
 	m_bus.setDecode(4, m_adderLow+0x4000, m_adderLow+0x4900);
-	m_bus.setDecode(5, m_adderLow+0x5000, m_adderLow+0x5900);
+	m_bus.setDecode(5, m_adderLow+0x5000, m_adderLow+0x5900);*/
     //m_adder.intr.bind(*m_board_1.externalInterrupt());
 }
 

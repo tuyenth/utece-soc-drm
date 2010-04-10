@@ -1,7 +1,7 @@
 #include "MyViterbi.h"
 #include "arm.h"
 
-MyViterbi::MyViterbi(sc_module_name nm, int ser) : sc_module(nm), mSerial(ser)
+MyViterbi::MyViterbi(sc_module_name nm) : sc_module(nm)
 {
 	//SC_HAS_PROCESS(MyViterbi);
 	//SC_THREAD(MyViterbi_thread);
@@ -18,31 +18,46 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
     Uns32  data    = *dataPtr;
 	char *what;
 	int i;
-	int offset = mSerial*MAP_SIZE;
-
+	//int offset = mSerial*MAP_SIZE;
+	Uns64 base_addr;
+	
+	
+	for(i = 0; i < TOTAL_INSTANCES; i++)
+	{
+		if(addr >= 0xd3000000 + i*MAP_SIZE && addr < 0xd3000000 + (i + 1)*MAP_SIZE) {
+			mSerial = i;
+			break;
+		}
+	}
+	
+	base_addr = addr - mSerial*MAP_SIZE;
+		
 	switch( trans.get_command() ) 
 	{
         case TLM_READ_COMMAND :  
 			what = "read";
-			if (addr == 0xd3000004 + offset) // Return status
+			if (base_addr == 0xd3000004) // Return status
 			{
 				//intr.write(0); // This would disable the interrupt line again
+				//return current status, busy or available
 				data = this->status;
 				memcpy(dataPtr, &data, len); 
 			}
-			else if (addr == 0xd300000C + offset) //# of bytes to ARM
+			else if (base_addr == 0xd300000C) //# of bytes to ARM
 			{
+				//put the number of bytes to the memory
 				data = this->nDeOutput;
 				memcpy(dataPtr, &data, len); 
+				//prepare for outputing decoded data
 				pOutput = (unsigned int*) vecOutputBits;
 			}
-			else if (addr == 0xd3000034 + offset) //return value by MyDecode
+			else if (base_addr == 0xd3000034) //return value by MyDecode
 			{
 				data = this->retDecode;
 				memcpy(dataPtr, &data, len); 
 			}
-			else if (addr >= 0xd3000300 + offset && 
-				addr <= 0xd30003FC + offset)
+			else if (base_addr >= 0xd3000300 && 
+				base_addr <= 0xd30003FC)
 			{
 				data = *(this->pOutput);
 				memcpy(dataPtr, &data, len); 
@@ -54,7 +69,7 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 			break;
         case TLM_WRITE_COMMAND:  
 			what = "write" ;  
-			if (addr == 0xd3000040 + offset) // Command
+			if (base_addr == 0xd3000040) // Command
 			{
 				if(data == 0) { //shutdown
 				
@@ -62,11 +77,12 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 				else if(data == 1) //init
 				{
 					this->status = -1;
-					this->MyInit(this->eNewCodingScheme,
-						this->eNewChannelType, this->iN1,
-						this->iN2, this->iNewNumOutBitsPartA,
-						this->iNewNumOutBitsPartB, this->iPunctPatPartA,
-						this->iPunctPatPartB, this->iLevel);
+					/* ToBeChanged */
+					this->MyInit(this->eNewCodingScheme[mSerial],
+						this->eNewChannelType[mSerial], this->iN1[mSerial],
+						this->iN2[mSerial], this->iNewNumOutBitsPartA[mSerial],
+						this->iNewNumOutBitsPartB[mSerial], this->iPunctPatPartA[mSerial],
+						this->iPunctPatPartB[mSerial], this->iLevel[mSerial]);
 					this->status = 0;
 				}
 				else if(data == 2) //decode
@@ -76,7 +92,9 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 					{
 						cout << i << ")" << (double)vecNewDistance[i].rTow0 << " " << (double)vecNewDistance[i].rTow1 << " " << (int)vecNewDistance[i].rTow0 << " "<< (int)vecNewDistance[i].rTow1 << endl;
 					}
+					
 					this->status = -1;
+					//ToBeChanged
 					this->retDecode = this->MyDecode();
 					this->status = 0;
 					cout << "FPGA: command DECODE done" << endl;
@@ -87,33 +105,36 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 				intr.write(1);    // Signal an interrupt to the CPU
 				*/
 			}
-			else if(addr == 0xd3000008 + offset) // # of bytes from ARM
+			else if(base_addr == 0xd3000008) // # of bytes from ARM
 			{
+				//Save the number of bytes to be written by ARM
 				nDeInput = data;
 				bytesReceived = 0;
+				//Initialize the memory for writing
 				pInput = (unsigned int*)vecNewDistance;
 			}
-			else if(addr == 0xd3000010 + offset) // The following 9 addresses are for init input
-				this->eNewCodingScheme = (ECodScheme)data;
-			else if(addr == 0xd3000014 + offset)	
-				this->eNewChannelType = (EChanType)data;
-			else if(addr == 0xd3000018 + offset)
-				this->iN1 = data;
-			else if(addr == 0xd300001C + offset)
-				this->iN2 = data;
-			else if(addr == 0xd3000020 + offset)
-				this->iNewNumOutBitsPartA = data;
-			else if(addr == 0xd3000024 + offset)
-				this->iNewNumOutBitsPartB = data; 
-			else if(addr == 0xd3000028 + offset)
-				this->iPunctPatPartA = data;
-			else if(addr == 0xd300002C + offset)
-				this->iPunctPatPartB = data;
-			else if(addr == 0xd3000030 + offset) {	
-				this->iLevel = data;
+			//ToBeChanged
+			else if(base_addr == 0xd3000010) // The following 9 addresses are for init input
+				this->eNewCodingScheme[mSerial] = (ECodScheme)data;
+			else if(base_addr == 0xd3000014)	
+				this->eNewChannelType[mSerial] = (EChanType)data;
+			else if(base_addr == 0xd3000018)
+				this->iN1[mSerial] = data;
+			else if(base_addr == 0xd300001C)
+				this->iN2[mSerial] = data;
+			else if(base_addr == 0xd3000020)
+				this->iNewNumOutBitsPartA[mSerial] = data;
+			else if(base_addr == 0xd3000024)
+				this->iNewNumOutBitsPartB[mSerial] = data; 
+			else if(base_addr == 0xd3000028)
+				this->iPunctPatPartA[mSerial] = data;
+			else if(base_addr == 0xd300002C)
+				this->iPunctPatPartB[mSerial] = data;
+			else if(base_addr == 0xd3000030) {	
+				this->iLevel[mSerial] = data;
 			}
-			else if(addr >= 0xd3000200 + offset && 
-				addr <= 0xd30002FC + offset)
+			else if(base_addr >= 0xd3000200 && 
+				base_addr <= 0xd30002FC)
 			{
 				*(this->pInput) = data;
 				this->pInput++;
@@ -132,7 +153,7 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 			break;
     }
     if (1) {
-        cout << hex << "Peripheral " << name() << " "<< what << " addr: " << addr << " data: " << data << endl;
+        cout << hex << "Peripheral " << name() << " "<< what << " addr(base): " << addr << "(" << base_addr << ")" << " data: " << data << endl;
     }
 
     trans.set_response_status(tlm::TLM_OK_RESPONSE);
@@ -201,6 +222,7 @@ FXP MyViterbi::MyDecode()
 	}
 	printf("\n");
 
+	printf("Stop 1 \n");
 	/* Init pointers for old and new trellis state */
 	pCurTrelMetric = vecTrelMetric1;
 	pOldTrelMetric = vecTrelMetric2;
@@ -215,9 +237,10 @@ FXP MyViterbi::MyDecode()
 	/* Reset counter for puncturing and distance (from metric) */
 	iDistCnt = 0;
 
-
+	printf("Stop 2 \n");
+	
 	/* Main loop over all bits ---------------------------------------------- */
-	for (i = 0; i < iNumOutBitsWithMemory; i++)
+	for (i = 0; i < iNumOutBitsWithMemory[mSerial]; i++)
 	{
 		/* Calculate all possible metrics ----------------------------------- */
 		/* There are only a small set of possible puncturing patterns used for
@@ -234,7 +257,7 @@ FXP MyViterbi::MyDecode()
 		const int iPos0 = iDistCnt;
 		iDistCnt++;
 
-		if (veciTablePuncPat[i] == PP_TYPE_0001)
+		if (veciTablePuncPat[mSerial][i] == PP_TYPE_0001)
 		{
 			/* Pattern 0001 */
 			vecrMetricSet[ 0] = vecNewDistance[iPos0].rTow0;
@@ -264,7 +287,7 @@ FXP MyViterbi::MyDecode()
 			const int rIRxx11 =
 				vecNewDistance[iPos1].rTow1 + vecNewDistance[iPos0].rTow1;
 
-			if (veciTablePuncPat[i] == PP_TYPE_0101)
+			if (veciTablePuncPat[mSerial][i] == PP_TYPE_0101)
 			{
 				/* Pattern 0101 */
 				vecrMetricSet[ 0] = rIRxx00;
@@ -276,7 +299,7 @@ FXP MyViterbi::MyDecode()
 				vecrMetricSet[13] = rIRxx11;
 				vecrMetricSet[15] = rIRxx11;
 			}
-			else if (veciTablePuncPat[i] == PP_TYPE_0011)
+			else if (veciTablePuncPat[mSerial][i] == PP_TYPE_0011)
 			{
 				/* Pattern 0011 */
 				vecrMetricSet[ 0] = rIRxx00;
@@ -294,7 +317,7 @@ FXP MyViterbi::MyDecode()
 				const int iPos2 = iDistCnt;
 				iDistCnt++;
 
-				if (veciTablePuncPat[i] == PP_TYPE_0111)
+				if (veciTablePuncPat[mSerial][i] == PP_TYPE_0111)
 				{
 					/* Pattern 0111 */
 					vecrMetricSet[ 0] = vecNewDistance[iPos2].rTow0 + rIRxx00;
@@ -354,13 +377,13 @@ FXP MyViterbi::MyDecode()
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[cur] = rFiStAccMetricPrev0; \
-				matdecDecisions[i][cur] = 0; \
+				matdecDecisions[mSerial][i][cur] = 0; \
 			} \
 			else \
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[cur] = rFiStAccMetricPrev1; \
-				matdecDecisions[i][cur] = 1; \
+				matdecDecisions[mSerial][i][cur] = 1; \
 			} \
 			\
 			/* Second state in this set ----------------------------------- */ \
@@ -375,13 +398,13 @@ FXP MyViterbi::MyDecode()
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[next] = rSecStAccMetricPrev0; \
-				matdecDecisions[i][next] = 0; \
+				matdecDecisions[mSerial][i][next] = 0; \
 			} \
 			else \
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[next] = rSecStAccMetricPrev1; \
-				matdecDecisions[i][next] = 1; \
+				matdecDecisions[mSerial][i][next] = 1; \
 			} \
 		}
 
@@ -437,29 +460,29 @@ FXP MyViterbi::MyDecode()
 	   in the encoder is padded with zeros at the end */
 	iCurDecState = 0;
 
-	for (i = 0; i < iNumOutBits; i++)
+	for (i = 0; i < iNumOutBits[mSerial]; i++)
 	{
 		/* Read out decisions "backwards". Mask only first bit, because in MMX
 		   implementation, all 8 bits of a "char" are set to the decision */
 		const _DECISIONTYPE decCurBit =
-			matdecDecisions[iNumOutBitsWithMemory - i - 1][iCurDecState] & 1;
+			(matdecDecisions[mSerial])[iNumOutBitsWithMemory[mSerial] - i - 1][iCurDecState] & 1;
 
 		/* Calculate next state from previous decoded bit -> shift old data
 		   and add new bit */
 		iCurDecState = (iCurDecState >> 1) | (decCurBit << 5);
 
 		/* Set decisions "backwards" in actual result vector */
-		vecOutputBits[iNumOutBits - i - 1] = (_BINARY) decCurBit;
+		vecOutputBits[iNumOutBits[mSerial] - i - 1] = (_BINARY) decCurBit;
 	}
 #endif
 
-	this->nDeOutput = iNumOutBits;
-	cout << "iNumOutBits = " << iNumOutBits << endl;
+	this->nDeOutput = iNumOutBits[mSerial];
+	cout << "iNumOutBits = " << iNumOutBits[mSerial] << endl;
 	/* Return normalized accumulated minimum metric */
 	// return pOldTrelMetric[0] / iDistCnt;
 	FXP retValue = pOldTrelMetric[0] / iDistCnt;
-	printf("DumpOut: number = %d\n", iNumOutBits);
-	for(int i = 0; i < iNumOutBits; i++)
+	printf("DumpOut: number = %d\n", iNumOutBits[mSerial]);
+	for(int i = 0; i < iNumOutBits[mSerial]; i++)
 	{
 		if(i%8 == 0)
 			printf("\n DumpOut %04d:", i);
@@ -485,20 +508,20 @@ void MyViterbi::MyInit(ECodScheme eNewCodingScheme,
 		" " << iPunctPatPartB << " " << iLevel << endl;
 
 	/* Number of bits out is the sum of all protection levels */
-	iNumOutBits = iNewNumOutBitsPartA + iNewNumOutBitsPartB;
+	iNumOutBits[mSerial] = iNewNumOutBitsPartA + iNewNumOutBitsPartB;
 
 	/* Number of out bits including the state memory */
-	iNumOutBitsWithMemory = iNumOutBits + MC_CONSTRAINT_LENGTH - 1;
+	iNumOutBitsWithMemory[mSerial] = iNumOutBits[mSerial] + MC_CONSTRAINT_LENGTH - 1;
 
 	/* Init vector, storing table for puncturing pattern and generate pattern */
-	veciTablePuncPat.Init(iNumOutBitsWithMemory);
+	veciTablePuncPat[mSerial].Init(iNumOutBitsWithMemory[mSerial]);
 
-	veciTablePuncPat = MyGenPuncPatTable(eNewCodingScheme, eNewChannelType, iN1,
+	veciTablePuncPat[mSerial] = MyGenPuncPatTable(eNewCodingScheme, eNewChannelType, iN1,
 		iN2, iNewNumOutBitsPartA, iNewNumOutBitsPartB, iPunctPatPartA,
 		iPunctPatPartB, iLevel);
 
 	/* Init vector for storing the decided bits */
-	matdecDecisions.Init(iNumOutBitsWithMemory, MC_NUM_STATES);
+	matdecDecisions[mSerial].Init(iNumOutBitsWithMemory[mSerial], MC_NUM_STATES);
 }
 
 CVector<int> MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
