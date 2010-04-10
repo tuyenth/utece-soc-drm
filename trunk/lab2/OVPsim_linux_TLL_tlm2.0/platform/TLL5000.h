@@ -45,14 +45,16 @@ private:
 
     TLL6219           m_board_1;         // ARM daughter board
 
-    CPLD<0xCC000000, 6>m_bus;            // CPLD bus decoder (CS1 through CS5)
+    CPLD<0xCC000000, 1>m_bus;            // CPLD bus decoder (CS1 through CS5)
 
     MyViterbi           m_viterbi0;           // FPGA hardware
+	/*
     MyViterbi           m_viterbi1;           // FPGA hardware
     MyViterbi           m_viterbi2;           // FPGA hardware
     MyViterbi           m_viterbi3;           // FPGA hardware
     MyViterbi           m_viterbi4;           // FPGA hardware
     MyViterbi           m_viterbi5;           // FPGA hardware
+	*/
     //Adder             m_adder;           // FPGA hardware
 };
 
