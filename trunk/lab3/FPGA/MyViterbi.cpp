@@ -2,12 +2,12 @@
 //#include "arm.h"
 
 //the number of bytes copied must be a multiple of 4
-void* MyMemcpy(void* dest, const void* src, int n)
+unsigned int* MyMemcpy(unsigned int* dest, const unsigned int* src, int n)
 {
 	int iterations = n >> 2;
 	int i = 0;
-	void* dptr;
-	const void* sptr;
+	unsigned int* dptr;
+	const unsigned int* sptr;
 
 	dptr = dest;
 	sptr = src;
