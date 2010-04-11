@@ -2,7 +2,8 @@
 #define _MY_VITERBI_H_
 
 #include "FXP.h"
-#include "Vector.h"
+//#include "Vector.h"
+#include "GlobalDefinitions.h"
 #include "Puncture.h"
 #include "tlm.h"
 #include "tlm_utils/simple_target_socket.h"
@@ -102,8 +103,17 @@ private:
 	int			veciTablePuncPat3[1560];
 	int			veciTablePuncPat4[3114];
 	int			veciTablePuncPat5[3734];
-	CMatrix<_DECISIONTYPE>	matdecDecisions[TOTAL_INSTANCES];
-
+	//CMatrix<_DECISIONTYPE>	matdecDecisions[TOTAL_INSTANCES];
+	_DECISIONTYPE   matdecDecisions[3734][MC_NUM_STATES];
+	/*
+	_DECISIONTYPE**		RetDecisions();
+	_DECISIONTYPE	matdecDecisions0[78][MC_NUM_STATES];	
+	_DECISIONTYPE	matdecDecisions1[216][MC_NUM_STATES];	
+	_DECISIONTYPE	matdecDecisions2[426][MC_NUM_STATES];	
+	_DECISIONTYPE	matdecDecisions3[1560][MC_NUM_STATES];	
+	_DECISIONTYPE	matdecDecisions4[3114][MC_NUM_STATES];	
+	_DECISIONTYPE	matdecDecisions5[3734][MC_NUM_STATES];	
+	*/
 	/* Two trellis data vectors are needed for current and old state */
 	int			vecTrelMetric1[MC_NUM_STATES];  // Used to be float
 	int			vecTrelMetric2[MC_NUM_STATES];	// Used to be float

@@ -219,7 +219,36 @@ int* MyViterbi::RetPuncTabPat()
 	}
 	return ret;
 }
+/*
+_DECISIONTYPE**		MyViterbi::RetDecisions()
+{
+	_DECISIONTYPE** ret;
 
+	switch(this->mSerial)
+	{
+		case 0:
+			ret = (_DECISIONTYPE**)matdecDecisions0;
+			break;
+		case 1:
+			ret = (_DECISIONTYPE**)matdecDecisions1;
+			break;
+		case 2:
+			ret = (_DECISIONTYPE**)matdecDecisions2;
+			break;
+		case 3:
+			ret = (_DECISIONTYPE**)matdecDecisions3;
+			break;
+		case 4:
+			ret = (_DECISIONTYPE**)matdecDecisions4;
+			break;
+		case 5:
+			ret = (_DECISIONTYPE**)matdecDecisions5;
+			break;
+	}
+	return ret;
+
+}
+*/
 FXP MyViterbi::MyDecode()
 {
 	int		i;
@@ -407,13 +436,13 @@ FXP MyViterbi::MyDecode()
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[cur] = rFiStAccMetricPrev0; \
-				matdecDecisions[mSerial][i][cur] = 0; \
+				matdecDecisions[i][cur] = 0; \
 			} \
 			else \
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[cur] = rFiStAccMetricPrev1; \
-				matdecDecisions[mSerial][i][cur] = 1; \
+				matdecDecisions[i][cur] = 1; \
 			} \
 			\
 			/* Second state in this set ----------------------------------- */ \
@@ -428,16 +457,17 @@ FXP MyViterbi::MyDecode()
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[next] = rSecStAccMetricPrev0; \
-				matdecDecisions[mSerial][i][next] = 0; \
+				matdecDecisions[i][next] = 0; \
 			} \
 			else \
 			{ \
 				/* Save minimum metric for this state and store decision */ \
 				pCurTrelMetric[next] = rSecStAccMetricPrev1; \
-				matdecDecisions[mSerial][i][next] = 1; \
+				matdecDecisions[i][next] = 1; \
 			} \
 		}
-
+		
+		printf("Stop 3...mSerial = %d\n", this->mSerial);
 
 		/* Unroll butterflys to avoid loop overhead. For c++ version, the
 		   actual calculation of the trellis update is done here, for MMX
@@ -475,6 +505,8 @@ FXP MyViterbi::MyDecode()
 		BUTTERFLY(60, 61, 30, 62, 13,  2)
 		BUTTERFLY(62, 63, 31, 63, 11,  4)
 
+		printf("Stop 4...mSerial = %d\n", this->mSerial);
+		
 #undef BUTTERFLY
 
 		/* Swap trellis data pointers (old -> new, new -> old) */
@@ -495,7 +527,7 @@ FXP MyViterbi::MyDecode()
 		/* Read out decisions "backwards". Mask only first bit, because in MMX
 		   implementation, all 8 bits of a "char" are set to the decision */
 		const _DECISIONTYPE decCurBit =
-			(matdecDecisions[mSerial])[iNumOutBitsWithMemory[mSerial] - i - 1][iCurDecState] & 1;
+			matdecDecisions[iNumOutBitsWithMemory[mSerial] - i - 1][iCurDecState] & 1;
 
 		/* Calculate next state from previous decoded bit -> shift old data
 		   and add new bit */
@@ -551,7 +583,8 @@ void MyViterbi::MyInit(ECodScheme eNewCodingScheme,
 		iPunctPatPartB, iLevel);
 
 	/* Init vector for storing the decided bits */
-	matdecDecisions[mSerial].Init(iNumOutBitsWithMemory[mSerial], MC_NUM_STATES);
+	//matdecDecisions[mSerial].Init(iNumOutBitsWithMemory[mSerial], MC_NUM_STATES);
+	printf("MMM*** serial = %d, (%d, %d)\n", mSerial, iNumOutBitsWithMemory[mSerial], MC_NUM_STATES);
 }
 
 void MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
