@@ -39,12 +39,14 @@
 using namespace std; /* Because of the library: "complex" */
 #endif
 
+/*
 #include <string>
 #include <stdio.h>
 #include <math.h>
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
+*/
 
 #include "TableDRMGlobal.h"
 
@@ -131,7 +133,7 @@ typedef complex<_INT>    IComplex;
 
 // bool seems not to work with linux TODO: Fix Me!
 typedef unsigned char/*bool*/			_BINARY;
-
+#if 0
 #if defined(_WIN32)
 typedef unsigned __int32 uint32_t;
 typedef unsigned __int16 uint16_t;
@@ -145,6 +147,7 @@ typedef unsigned __int16 uint16_t;
 //typedef unsigned long uint32_t;
 //typedef unsigned int uint16_t;
 # endif
+#endif
 #endif
 #endif
 
@@ -189,14 +192,15 @@ typedef unsigned int					_MESSAGE_IDENT;
 
 
 /* Global enumerations ------------------------------------------------------ */
+#if 0
 enum ESpecOcc {SO_0, SO_1, SO_2, SO_3, SO_4, SO_5}; /* SO: Spectrum Occupancy */
 enum ERobMode {RM_ROBUSTNESS_MODE_A, RM_ROBUSTNESS_MODE_B,
 		RM_ROBUSTNESS_MODE_C, RM_ROBUSTNESS_MODE_D,
 		RM_NO_MODE_DETECTED}; /* RM: Robustness Mode */
-
+#endif
 
 /* Constants ---------------------------------------------------------------- */
-const _REAL crPi = ((_REAL) 3.14159265358979323846);
+//const _REAL crPi = ((_REAL) 3.14159265358979323846);
 //const _FREAL crfPi = FXP(205887, 0);
 
 
@@ -226,7 +230,7 @@ public:
 	_FREAL rTow1;
 };
 
-
+#if 0
 /* Viterbi needs information of equalized received signal and channel */
 class CEquSig
 {
@@ -346,5 +350,5 @@ inline _SAMPLE Real2Sample(const int rInput)
 
         return (_SAMPLE) rInput;
 }
-
+#endif 
 #endif // !defined(DEF_H__3B0BA660_CA63_4344_BB2B_23E7A0D31912__INCLUDED_)

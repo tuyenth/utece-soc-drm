@@ -21,6 +21,7 @@ typedef unsigned char/*bool*/			_BINARY;
 enum ECodScheme {CS_1_SM, CS_2_SM, CS_3_SM, CS_3_HMSYM, CS_3_HMMIX};
 enum EChanType {CT_MSC, CT_SDC, CT_FAC};
 
+/*
 typedef struct InitStruct {
 	ECodScheme eNewCodingScheme;
 	EChanType eNewChannelType;
@@ -32,6 +33,7 @@ typedef struct InitStruct {
 	int iPunctPatPartB;
 	int iLevel;
 } InitStruct;
+*/
 
 /* Data type for Viterbi metric */
 #define _VITMETRTYPE				int 	// Used to be float
