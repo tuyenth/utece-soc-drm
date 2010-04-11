@@ -1,2 +1,2 @@
-cp -f ../../../step2/drm-1.2.4-fxp/linux/drm fs/app/
+cp -f ../../drm-1.2.4-fxp/linux/drm fs/app/
 ./packImage.sh fs fs.img
