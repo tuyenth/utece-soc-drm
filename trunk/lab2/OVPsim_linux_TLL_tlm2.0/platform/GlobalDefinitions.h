@@ -215,6 +215,7 @@ enum ERobMode {RM_ROBUSTNESS_MODE_A, RM_ROBUSTNESS_MODE_B,
 
 /* Classes ********************************************************************/
 /* For metric */
+#if 0
 class CDistance
 {
 public:
@@ -222,6 +223,7 @@ public:
 	_REAL rTow0;
 	_REAL rTow1;
 };
+#endif
 class CFDistance
 {
 public:
