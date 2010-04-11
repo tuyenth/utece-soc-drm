@@ -76,7 +76,7 @@ public:
 	//Constructor
 	MyViterbi(sc_core::sc_module_name nm);
 private:
-	CVector<int> MyGenPuncPatTable(ECodScheme eNewCodingScheme,
+	void MyGenPuncPatTable(ECodScheme eNewCodingScheme,
 		EChanType eNewChannelType,
 		int iN1, int iN2,
 		int iNewNumOutBitsPartA,
@@ -94,7 +94,14 @@ private:
 		
 	int			iNumOutBits[TOTAL_INSTANCES];
 	int			iNumOutBitsWithMemory[TOTAL_INSTANCES];
-	CVector<int>		veciTablePuncPat[TOTAL_INSTANCES];
+	//CVector<int>		veciTablePuncPat[TOTAL_INSTANCES];
+	int*		RetPuncTabPat();
+	int			veciTablePuncPat0[78];
+	int			veciTablePuncPat1[216];
+	int			veciTablePuncPat2[426];
+	int			veciTablePuncPat3[1560];
+	int			veciTablePuncPat4[3114];
+	int			veciTablePuncPat5[3734];
 	CMatrix<_DECISIONTYPE>	matdecDecisions[TOTAL_INSTANCES];
 
 	/* Two trellis data vectors are needed for current and old state */

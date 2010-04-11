@@ -193,6 +193,33 @@ void MyViterbi::MyViterbi_thread(void)
 	}
 }*/
 
+int* MyViterbi::RetPuncTabPat()
+{
+	int* ret;
+	switch(this->mSerial)
+	{
+		case 0:
+			ret = veciTablePuncPat0;
+			break;
+		case 1:
+			ret = veciTablePuncPat1;
+			break;
+		case 2:
+			ret = veciTablePuncPat2;
+			break;
+		case 3:
+			ret = veciTablePuncPat3;
+			break;
+		case 4:
+			ret = veciTablePuncPat4;
+			break;
+		case 5:
+			ret = veciTablePuncPat5;
+			break;
+	}
+	return ret;
+}
+
 FXP MyViterbi::MyDecode()
 {
 	int		i;
@@ -257,7 +284,8 @@ FXP MyViterbi::MyDecode()
 		const int iPos0 = iDistCnt;
 		iDistCnt++;
 
-		if (veciTablePuncPat[mSerial][i] == PP_TYPE_0001)
+		//if (veciTablePuncPat[mSerial][i] == PP_TYPE_0001)
+		if (RetPuncTabPat()[i] == PP_TYPE_0001)
 		{
 			/* Pattern 0001 */
 			vecrMetricSet[ 0] = vecNewDistance[iPos0].rTow0;
@@ -287,7 +315,8 @@ FXP MyViterbi::MyDecode()
 			const int rIRxx11 =
 				vecNewDistance[iPos1].rTow1 + vecNewDistance[iPos0].rTow1;
 
-			if (veciTablePuncPat[mSerial][i] == PP_TYPE_0101)
+			//if (veciTablePuncPat[mSerial][i] == PP_TYPE_0101)
+			if (RetPuncTabPat()[i] == PP_TYPE_0101)
 			{
 				/* Pattern 0101 */
 				vecrMetricSet[ 0] = rIRxx00;
@@ -299,7 +328,8 @@ FXP MyViterbi::MyDecode()
 				vecrMetricSet[13] = rIRxx11;
 				vecrMetricSet[15] = rIRxx11;
 			}
-			else if (veciTablePuncPat[mSerial][i] == PP_TYPE_0011)
+			//else if (veciTablePuncPat[mSerial][i] == PP_TYPE_0011)
+			else if (RetPuncTabPat()[i] == PP_TYPE_0011)
 			{
 				/* Pattern 0011 */
 				vecrMetricSet[ 0] = rIRxx00;
@@ -317,7 +347,7 @@ FXP MyViterbi::MyDecode()
 				const int iPos2 = iDistCnt;
 				iDistCnt++;
 
-				if (veciTablePuncPat[mSerial][i] == PP_TYPE_0111)
+				if (RetPuncTabPat()[i] == PP_TYPE_0111)
 				{
 					/* Pattern 0111 */
 					vecrMetricSet[ 0] = vecNewDistance[iPos2].rTow0 + rIRxx00;
@@ -514,9 +544,9 @@ void MyViterbi::MyInit(ECodScheme eNewCodingScheme,
 	iNumOutBitsWithMemory[mSerial] = iNumOutBits[mSerial] + MC_CONSTRAINT_LENGTH - 1;
 
 	/* Init vector, storing table for puncturing pattern and generate pattern */
-	veciTablePuncPat[mSerial].Init(iNumOutBitsWithMemory[mSerial]);
+	//veciTablePuncPat[mSerial].Init(iNumOutBitsWithMemory[mSerial]);
 
-	veciTablePuncPat[mSerial] = MyGenPuncPatTable(eNewCodingScheme, eNewChannelType, iN1,
+	MyGenPuncPatTable(eNewCodingScheme, eNewChannelType, iN1,
 		iN2, iNewNumOutBitsPartA, iNewNumOutBitsPartB, iPunctPatPartA,
 		iPunctPatPartB, iLevel);
 
@@ -524,7 +554,7 @@ void MyViterbi::MyInit(ECodScheme eNewCodingScheme,
 	matdecDecisions[mSerial].Init(iNumOutBitsWithMemory[mSerial], MC_NUM_STATES);
 }
 
-CVector<int> MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
+void MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
 		EChanType eNewChannelType,
 		int iN1, int iN2,
 		int iNewNumOutBitsPartA,
@@ -541,10 +571,15 @@ CVector<int> MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
 	int				iPartAPatLen;
 	int				iPartBPatLen;
 	int				iPunctCounter;
-	CVector<int>	veciPuncPatPartA;
-	CVector<int>	veciPuncPatPartB;
-	CVector<int>	veciTailBitPat;
-	CVector<int>	veciReturn;
+	//CVector<int>	veciPuncPatPartA;
+	int				veciPuncPatPartA[3];
+	//CVector<int>	veciPuncPatPartB;
+	int				veciPuncPatPartB[4];
+	//CVector<int>	veciTailBitPat;
+	int				veciTailBitPat[LENGTH_TAIL_BIT_PAT];
+	//CVector<int>	veciReturn;
+	//ComeBackLater
+	int*			veciReturn = RetPuncTabPat();
 
 	/* Number of bits out is the sum of all protection levels */
 	iNumOutBits = iNewNumOutBitsPartA + iNewNumOutBitsPartB;
@@ -553,8 +588,9 @@ CVector<int> MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
 	iNumOutBitsWithMemory = iNumOutBits + MC_CONSTRAINT_LENGTH - 1;
 
 	/* Init vector, storing table for puncturing pattern */
-	veciReturn.Init(iNumOutBitsWithMemory);
-
+	//veciReturn.Init(iNumOutBitsWithMemory);
+	printf("VVV*** serial = %d, veciReturn: iNumOutBitsWithMemory = %d\n", 
+		this->mSerial, iNumOutBitsWithMemory);
 
 	/* Set tail-bit pattern ------------------------------------------------- */
 	/* We have to consider two cases because in HSYM "N1 + N2" is used
@@ -596,17 +632,24 @@ CVector<int> MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
 	iPartBPatLen = iPuncturingPatterns[iPunctPatPartB][0];
 
 	/* Vector, storing patterns for part A. Patterns begin at [][2 + x] */
-	veciPuncPatPartA.Init(iPartAPatLen);
+	//veciPuncPatPartA.Init(iPartAPatLen);
+	printf("VVV*** serial = %d, veciPuncPatPartA: iPartAPatLen = %d\n", 
+		this->mSerial, iPartAPatLen);
+
 	for (i = 0; i < iPartAPatLen; i++)
 		veciPuncPatPartA[i] = iPuncturingPatterns[iPunctPatPartA][2 + i];
 
 	/* Vector, storing patterns for part B. Patterns begin at [][2 + x] */
-	veciPuncPatPartB.Init(iPartBPatLen);
+	//veciPuncPatPartB.Init(iPartBPatLen);
+	printf("VVV*** serial = %d, veciPuncPatPartB: iPartBPatLen = %d\n", 
+		this->mSerial, iPartBPatLen);
 	for (i = 0; i < iPartBPatLen; i++)
 		veciPuncPatPartB[i] = iPuncturingPatterns[iPunctPatPartB][2 + i];
 
 	/* Vector, storing patterns for tailbit pattern */
-	veciTailBitPat.Init(LENGTH_TAIL_BIT_PAT);
+	//veciTailBitPat.Init(LENGTH_TAIL_BIT_PAT);
+	printf("VVV*** serial = %d, veciTailBitPat: LENGTH_TAIL_BIT_PAT = %d\n", 
+		this->mSerial, LENGTH_TAIL_BIT_PAT);
 	for (i = 0; i < LENGTH_TAIL_BIT_PAT; i++)
 		veciTailBitPat[i] = iPunctPatTailbits[iTailbitPattern][i];
 
@@ -663,7 +706,7 @@ CVector<int> MyViterbi::MyGenPuncPatTable(ECodScheme eNewCodingScheme,
 		}
 	}
 	
-	wait(nDeInput*407, SC_NS); //Each element takes 3.26 microseconds
-	return veciReturn;
+	//wait(nDeInput*407, SC_NS); //Each element takes 3.26 microseconds
+	//return veciReturn;
 }
 
