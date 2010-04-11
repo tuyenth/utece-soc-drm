@@ -1,0 +1,386 @@
+#ifndef _PUNCTURE_H_
+#define _PUNCTURE_H_
+
+/* Puncturing --------------------------------------------------------------- */
+/* Only these types of patterns are used in DRM */
+#define PP_TYPE_0000					0 /* not used, dummy */
+#define PP_TYPE_1111					1
+#define PP_TYPE_0111					2
+#define PP_TYPE_0011					3
+#define PP_TYPE_0001					4
+#define PP_TYPE_0101					5
+
+typedef unsigned int uint32_t;
+
+/* {a, b, c ...}: a = Number of groups, b = Number of "1"s, c = Patterns */
+const uint32_t iPuncturingPatterns[13][10] = {
+/*
+B0: 1
+B1: 1
+B2: 1
+B3: 1
+*/
+	{1, 4,
+	 PP_TYPE_1111,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1
+B1: 1 1 1
+B2: 1 1 1
+B3: 1 0 0
+*/
+	{3, 10,
+	 PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1
+B1: 1
+B2: 1
+B3: 0
+*/
+	{1, 3,
+	 PP_TYPE_0111,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1 1
+B1: 1 1 1 1
+B2: 1 1 1 0
+B3: 0 0 0 0
+*/
+	{4, 11,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0011,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1
+B1: 1
+B2: 0
+B3: 0
+*/
+	{1, 2,
+	 PP_TYPE_0011,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1 1
+B1: 1 0 1 0
+B2: 0 1 0 0
+B3: 0 0 0 0
+*/
+	{4, 7,
+	 PP_TYPE_0011,
+	 PP_TYPE_0101,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1
+B1: 1 0 1
+B2: 0 0 0
+B3: 0 0 0
+*/
+	{3, 5,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0011,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1
+B1: 1 0
+B2: 0 0
+B3: 0 0
+*/
+	{2, 3,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1 1 1 1 1 1
+B1: 1 0 0 1 0 0 1 0
+B2: 0 0 0 0 0 0 0 0
+B3: 0 0 0 0 0 0 0 0
+*/
+	{8, 11,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001},
+
+/*
+B0: 1 1 1
+B1: 1 0 0
+B2: 0 0 0
+B3: 0 0 0
+*/
+	{3, 4,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1 1
+B1: 1 0 0 0
+B2: 0 0 0 0
+B3: 0 0 0 0
+*/
+	{4, 5,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1 1 1 1 1
+B1: 1 0 0 0 0 0 0
+B2: 0 0 0 0 0 0 0
+B3: 0 0 0 0 0 0 0
+*/
+	{7, 8,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0000},
+
+/*
+B0: 1 1 1 1 1 1 1 1
+B1: 1 0 0 0 0 0 0 0
+B2: 0 0 0 0 0 0 0 0
+B3: 0 0 0 0 0 0 0 0
+*/
+	{8, 9,
+	 PP_TYPE_0011,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001,
+	 PP_TYPE_0001}
+};
+
+/* Puncturing patterns for tailbits */
+#define LENGTH_TAIL_BIT_PAT				6
+const uint32_t iPunctPatTailbits[12][LENGTH_TAIL_BIT_PAT] = {
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 0 0 0 0 0 0
+B3: 0 0 0 0 0 0
+*/
+	{PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 0 0 0 0 0
+B3: 0 0 0 0 0 0
+*/
+	{PP_TYPE_0111,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 0 0 1 0 0
+B3: 0 0 0 0 0 0
+*/
+	{PP_TYPE_0111,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011,
+	 PP_TYPE_0111,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 0 1 0 0
+B3: 0 0 0 0 0 0
+*/
+	{PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0011,
+	 PP_TYPE_0111,
+	 PP_TYPE_0011,
+	 PP_TYPE_0011},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 0 1 1 0
+B3: 0 0 0 0 0 0
+*/
+	{PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0011,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0011},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 1 1 1 0
+B3: 0 0 0 0 0 0
+*/
+	{PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0011},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 1 1 1 1
+B3: 0 0 0 0 0 0
+*/
+	{PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 1 1 1 1
+B3: 1 0 0 0 0 0
+*/
+	{PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 1 1 1 1
+B3: 1 0 0 1 0 0
+*/
+	{PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111,
+	 PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 1 1 1 1
+B3: 1 1 0 1 0 0
+*/
+	{PP_TYPE_1111,
+	 PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_0111},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 1 1 1 1
+B3: 1 1 0 1 0 1
+*/
+	{PP_TYPE_1111,
+	 PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_1111},
+
+/*
+B0: 1 1 1 1 1 1
+B1: 1 1 1 1 1 1
+B2: 1 1 1 1 1 1
+B3: 1 1 1 1 0 1
+*/
+	{PP_TYPE_1111,
+	 PP_TYPE_1111,
+	 PP_TYPE_1111,
+	 PP_TYPE_1111,
+	 PP_TYPE_0111,
+	 PP_TYPE_1111},
+};
+
+#endif
