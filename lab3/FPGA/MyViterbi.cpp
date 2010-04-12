@@ -126,7 +126,8 @@ void initiatorTransport(UINT32 addr, UINT32* dataPtr, UINT32 len, ECommand comma
 				viterbi.nDeInput = data;
 				viterbi.bytesReceived = 0;
 				//Initialize the memory for writing
-				viterbi.pInput = (unsigned int*)viterbi.vecNewDistance;
+				//viterbi.pInput = (unsigned int*)viterbi.vecNewDistance;
+				viterbi.pInput = viterbi.vecNewDistance;
 			}
 			else if(base_addr == 0xd3000010) // The following 9 addresses are for init input
 				viterbi.eNewCodingScheme[viterbi.mSerial] = (ECodScheme)data;
@@ -150,7 +151,8 @@ void initiatorTransport(UINT32 addr, UINT32* dataPtr, UINT32 len, ECommand comma
 			else if(base_addr >= 0xd3000200 && 
 				base_addr <= 0xd30002FC)
 			{
-				*(viterbi.pInput) = data;
+				//*(viterbi.pInput) = data;
+				viterbi.pInput->directCopy(data);
 				viterbi.pInput++;
 				viterbi.bytesReceived += 4;
 				/*
@@ -267,14 +269,14 @@ FXP MyViterbi::MyDecode()
 		if (RetPuncTabPat()[i] == PP_TYPE_0001)
 		{
 			/* Pattern 0001 */
-			this->vecrMetricSet[ 0] = this->vecNewDistance[iPos0].rTow0;
-			this->vecrMetricSet[ 2] = this->vecNewDistance[iPos0].rTow0;
-			this->vecrMetricSet[ 4] = this->vecNewDistance[iPos0].rTow0;
-			this->vecrMetricSet[ 6] = this->vecNewDistance[iPos0].rTow0;
-			this->vecrMetricSet[ 9] = this->vecNewDistance[iPos0].rTow1;
-			this->vecrMetricSet[11] = this->vecNewDistance[iPos0].rTow1;
-			this->vecrMetricSet[13] = this->vecNewDistance[iPos0].rTow1;
-			this->vecrMetricSet[15] = this->vecNewDistance[iPos0].rTow1;
+			this->vecrMetricSet[ 0] = this->vecNewDistance[2*iPos0];
+			this->vecrMetricSet[ 2] = this->vecNewDistance[2*iPos0];
+			this->vecrMetricSet[ 4] = this->vecNewDistance[2*iPos0];
+			this->vecrMetricSet[ 6] = this->vecNewDistance[2*iPos0];
+			this->vecrMetricSet[ 9] = this->vecNewDistance[2*iPos0+1];
+			this->vecrMetricSet[11] = this->vecNewDistance[2*iPos0+1];
+			this->vecrMetricSet[13] = this->vecNewDistance[2*iPos0+1];
+			this->vecrMetricSet[15] = this->vecNewDistance[2*iPos0+1];
 		}
 		else
 		{
@@ -286,13 +288,13 @@ FXP MyViterbi::MyDecode()
 			   the fist two bits are used, others are x-ed. "IR" stands for
 			   "intermediate result" */
 			const int rIRxx00 =
-				this->vecNewDistance[iPos1].rTow0 + this->vecNewDistance[iPos0].rTow0;
+				this->vecNewDistance[2*iPos1] + this->vecNewDistance[2*iPos0];
 			const int rIRxx10 =
-				this->vecNewDistance[iPos1].rTow1 + this->vecNewDistance[iPos0].rTow0;
+				this->vecNewDistance[2*iPos1+1] + this->vecNewDistance[2*iPos0];
 			const int rIRxx01 =
-				this->vecNewDistance[iPos1].rTow0 + this->vecNewDistance[iPos0].rTow1;
+				this->vecNewDistance[2*iPos1] + this->vecNewDistance[2*iPos0+1];
 			const int rIRxx11 =
-				this->vecNewDistance[iPos1].rTow1 + this->vecNewDistance[iPos0].rTow1;
+				this->vecNewDistance[2*iPos1+1] + this->vecNewDistance[2*iPos0+1];
 
 			//if (this->veciTablePuncPat[this->mSerial][i] == PP_TYPE_0101)
 			if (RetPuncTabPat()[i] == PP_TYPE_0101)
@@ -330,14 +332,14 @@ FXP MyViterbi::MyDecode()
 				if (RetPuncTabPat()[i] == PP_TYPE_0111)
 				{
 					/* Pattern 0111 */
-					this->vecrMetricSet[ 0] = this->vecNewDistance[iPos2].rTow0 + rIRxx00;
-					this->vecrMetricSet[ 2] = this->vecNewDistance[iPos2].rTow0 + rIRxx10;
-					this->vecrMetricSet[ 4] = this->vecNewDistance[iPos2].rTow1 + rIRxx00;
-					this->vecrMetricSet[ 6] = this->vecNewDistance[iPos2].rTow1 + rIRxx10;
-					this->vecrMetricSet[ 9] = this->vecNewDistance[iPos2].rTow0 + rIRxx01;
-					this->vecrMetricSet[11] = this->vecNewDistance[iPos2].rTow0 + rIRxx11;
-					this->vecrMetricSet[13] = this->vecNewDistance[iPos2].rTow1 + rIRxx01;
-					this->vecrMetricSet[15] = this->vecNewDistance[iPos2].rTow1 + rIRxx11;
+					this->vecrMetricSet[ 0] = this->vecNewDistance[2*iPos2] + rIRxx00;
+					this->vecrMetricSet[ 2] = this->vecNewDistance[2*iPos2] + rIRxx10;
+					this->vecrMetricSet[ 4] = this->vecNewDistance[2*iPos2+1] + rIRxx00;
+					this->vecrMetricSet[ 6] = this->vecNewDistance[2*iPos2+1] + rIRxx10;
+					this->vecrMetricSet[ 9] = this->vecNewDistance[2*iPos2] + rIRxx01;
+					this->vecrMetricSet[11] = this->vecNewDistance[2*iPos2] + rIRxx11;
+					this->vecrMetricSet[13] = this->vecNewDistance[2*iPos2+1] + rIRxx01;
+					this->vecrMetricSet[15] = this->vecNewDistance[2*iPos2+1] + rIRxx11;
 				}
 				else
 				{
@@ -349,14 +351,14 @@ FXP MyViterbi::MyDecode()
 					/* Calculate "subsets" of bit-combinations. "rIRxx00" means
 					   that the last two bits are used, others are x-ed.
 					   "IR" stands for "intermediate result" */
-					const int rIR00xx = this->vecNewDistance[iPos3].rTow0 +
-						this->vecNewDistance[iPos2].rTow0;
-					const int rIR10xx = this->vecNewDistance[iPos3].rTow1 +
-						this->vecNewDistance[iPos2].rTow0;
-					const int rIR01xx = this->vecNewDistance[iPos3].rTow0 +
-						this->vecNewDistance[iPos2].rTow1;
-					const int rIR11xx = this->vecNewDistance[iPos3].rTow1 +
-						this->vecNewDistance[iPos2].rTow1;
+					const int rIR00xx = this->vecNewDistance[2*iPos3] +
+						this->vecNewDistance[2*iPos2];
+					const int rIR10xx = this->vecNewDistance[2*iPos3+1] +
+						this->vecNewDistance[2*iPos2];
+					const int rIR01xx = this->vecNewDistance[2*iPos3] +
+						this->vecNewDistance[2*iPos2+1];
+					const int rIR11xx = this->vecNewDistance[2*iPos3+1] +
+						this->vecNewDistance[2*iPos2+1];
 
 					this->vecrMetricSet[ 0] = rIR00xx + rIRxx00; /* 0 */
 					this->vecrMetricSet[ 2] = rIR00xx + rIRxx10; /* 2 */

@@ -6,8 +6,10 @@
 #ifndef _FXP_H
 #define _FXP_H
 
+#ifdef FXP_MATH
 #include <stdlib.h>
 #include <math.h>
+#endif
 
 #define FXP_PREC    16 
 
@@ -77,6 +79,8 @@ public:
 	FXP(const FXP* val) : value(val->value) {};
         FXP(long long x, int precision) : value(x>>(precision-FXP_PREC)) {};
 	~FXP(void) {};
+
+	void directCopy(int src) {this->value = src;};
 
 	/* Increment/Decrement */
 	FXP& operator++(void) {
@@ -366,6 +370,7 @@ public:
 		return a;
 	}
 
+#ifdef FXP_MATH
 	FXP divide(const FXP b) const
 	{
 		if(b==0) return FXP(0xFFFFFFFF, 0);
@@ -376,7 +381,7 @@ public:
 			a.value = (int)(((long long)value<<FXP_PREC)/b.value);
 		} return a;
 	}
-
+#endif
 	FXP operator+(const FXP b) const
 	{
 		return add(b);
@@ -461,7 +466,7 @@ public:
                 FXP _b = b;
                 return multiply(_b);
         }
-
+#ifdef FXP_MATH
 	FXP operator/(const FXP b) const
 	{
 		return divide(b);
@@ -486,7 +491,7 @@ public:
 		FXP _b = b;
 		return divide(_b);
 	}
-
+#endif
 	//Shouldn't be *= by float/double
 	FXP operator*=(const FXP rhs)
 	{
@@ -600,6 +605,7 @@ inline FXP ceil(FXP a)
 	return a.ceil();
 }
 
+#ifdef FXP_MATH
 /* These will be redefined later */
 inline FXP cos(const FXP a)
 {
@@ -633,7 +639,6 @@ inline FXP atan2(const FXP a, const FXP b)
 {
         return FXP(atan2((float)a, (float)b));
 }
-
 inline FXP abs(const FXP a)
 {
         return FXP(fabs((double)a));
@@ -680,6 +685,7 @@ inline FXP log10(const FXP a)
 	return FXP(log10((float)a));
 }
 
+#endif
 inline bool operator<(const int a, const FXP b)
 {
 	return b>=a;
