@@ -123,7 +123,8 @@ private:
 	int bytesReceived;
 	int nDeInput;
 	unsigned int* pInput;
-	CFDistance vecNewDistance[5000];
+	//CFDistance vecNewDistance[5000];
+	_FREAL vecNewDistance[5000*2];
 	//CVector<CFDistance> vecNewDistance;
     //Decoder output: Maximum elements=3495, each is 1 byte
 	int nDeOutput;

@@ -90,7 +90,7 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 					cout << "FPGA: command DECODE received" << endl;
 					for(i = 0; i < nDeInput>>3; i++)
 					{
-						cout << i << ")" << (double)vecNewDistance[i].rTow0 << " " << (double)vecNewDistance[i].rTow1 << " " << (int)vecNewDistance[i].rTow0 << " "<< (int)vecNewDistance[i].rTow1 << endl;
+						cout << i << ")" << (double)vecNewDistance[2*i] << " " << (double)vecNewDistance[2*i+1] << " " << (int)vecNewDistance[2*i] << " "<< (int)vecNewDistance[2*i+1] << endl;
 					}
 					
 					this->status = -1;
@@ -273,8 +273,8 @@ FXP MyViterbi::MyDecode()
 	{
 		if(i%2 == 0)
 			printf("\n DumpIn %04d:", i);
-		printf("%f %f ", (double)vecNewDistance[i].rTow0, 
-			(double)vecNewDistance[i].rTow1);
+		printf("%f %f ", (double)vecNewDistance[2*i], 
+			(double)vecNewDistance[2*i+1]);
 	}
 	printf("\n");
 
@@ -317,14 +317,14 @@ FXP MyViterbi::MyDecode()
 		if (RetPuncTabPat()[i] == PP_TYPE_0001)
 		{
 			/* Pattern 0001 */
-			vecrMetricSet[ 0] = vecNewDistance[iPos0].rTow0;
-			vecrMetricSet[ 2] = vecNewDistance[iPos0].rTow0;
-			vecrMetricSet[ 4] = vecNewDistance[iPos0].rTow0;
-			vecrMetricSet[ 6] = vecNewDistance[iPos0].rTow0;
-			vecrMetricSet[ 9] = vecNewDistance[iPos0].rTow1;
-			vecrMetricSet[11] = vecNewDistance[iPos0].rTow1;
-			vecrMetricSet[13] = vecNewDistance[iPos0].rTow1;
-			vecrMetricSet[15] = vecNewDistance[iPos0].rTow1;
+			vecrMetricSet[ 0] = vecNewDistance[2*iPos0];
+			vecrMetricSet[ 2] = vecNewDistance[2*iPos0];
+			vecrMetricSet[ 4] = vecNewDistance[2*iPos0];
+			vecrMetricSet[ 6] = vecNewDistance[2*iPos0];
+			vecrMetricSet[ 9] = vecNewDistance[2*iPos0+1];
+			vecrMetricSet[11] = vecNewDistance[2*iPos0+1];
+			vecrMetricSet[13] = vecNewDistance[2*iPos0+1];
+			vecrMetricSet[15] = vecNewDistance[2*iPos0+1];
 		}
 		else
 		{
@@ -336,13 +336,13 @@ FXP MyViterbi::MyDecode()
 			   the fist two bits are used, others are x-ed. "IR" stands for
 			   "intermediate result" */
 			const int rIRxx00 =
-				vecNewDistance[iPos1].rTow0 + vecNewDistance[iPos0].rTow0;
+				vecNewDistance[2*iPos1] + vecNewDistance[2*iPos0];
 			const int rIRxx10 =
-				vecNewDistance[iPos1].rTow1 + vecNewDistance[iPos0].rTow0;
+				vecNewDistance[2*iPos1+1] + vecNewDistance[2*iPos0];
 			const int rIRxx01 =
-				vecNewDistance[iPos1].rTow0 + vecNewDistance[iPos0].rTow1;
+				vecNewDistance[2*iPos1] + vecNewDistance[2*iPos0+1];
 			const int rIRxx11 =
-				vecNewDistance[iPos1].rTow1 + vecNewDistance[iPos0].rTow1;
+				vecNewDistance[2*iPos1+1]+ vecNewDistance[2*iPos0+1];
 
 			//if (veciTablePuncPat[mSerial][i] == PP_TYPE_0101)
 			if (RetPuncTabPat()[i] == PP_TYPE_0101)
@@ -379,14 +379,14 @@ FXP MyViterbi::MyDecode()
 				if (RetPuncTabPat()[i] == PP_TYPE_0111)
 				{
 					/* Pattern 0111 */
-					vecrMetricSet[ 0] = vecNewDistance[iPos2].rTow0 + rIRxx00;
-					vecrMetricSet[ 2] = vecNewDistance[iPos2].rTow0 + rIRxx10;
-					vecrMetricSet[ 4] = vecNewDistance[iPos2].rTow1 + rIRxx00;
-					vecrMetricSet[ 6] = vecNewDistance[iPos2].rTow1 + rIRxx10;
-					vecrMetricSet[ 9] = vecNewDistance[iPos2].rTow0 + rIRxx01;
-					vecrMetricSet[11] = vecNewDistance[iPos2].rTow0 + rIRxx11;
-					vecrMetricSet[13] = vecNewDistance[iPos2].rTow1 + rIRxx01;
-					vecrMetricSet[15] = vecNewDistance[iPos2].rTow1 + rIRxx11;
+					vecrMetricSet[ 0] = vecNewDistance[2*iPos2] + rIRxx00;
+					vecrMetricSet[ 2] = vecNewDistance[2*iPos2] + rIRxx10;
+					vecrMetricSet[ 4] = vecNewDistance[2*iPos2+1] + rIRxx00;
+					vecrMetricSet[ 6] = vecNewDistance[2*iPos2+1] + rIRxx10;
+					vecrMetricSet[ 9] = vecNewDistance[2*iPos2] + rIRxx01;
+					vecrMetricSet[11] = vecNewDistance[2*iPos2] + rIRxx11;
+					vecrMetricSet[13] = vecNewDistance[2*iPos2+1] + rIRxx01;
+					vecrMetricSet[15] = vecNewDistance[2*iPos2+1] + rIRxx11;
 				}
 				else
 				{
@@ -398,14 +398,14 @@ FXP MyViterbi::MyDecode()
 					/* Calculate "subsets" of bit-combinations. "rIRxx00" means
 					   that the last two bits are used, others are x-ed.
 					   "IR" stands for "intermediate result" */
-					const int rIR00xx = vecNewDistance[iPos3].rTow0 +
-						vecNewDistance[iPos2].rTow0;
-					const int rIR10xx = vecNewDistance[iPos3].rTow1 +
-						vecNewDistance[iPos2].rTow0;
-					const int rIR01xx = vecNewDistance[iPos3].rTow0 +
-						vecNewDistance[iPos2].rTow1;
-					const int rIR11xx = vecNewDistance[iPos3].rTow1 +
-						vecNewDistance[iPos2].rTow1;
+					const int rIR00xx = vecNewDistance[2*iPos3] +
+						vecNewDistance[2*iPos2];
+					const int rIR10xx = vecNewDistance[2*iPos3+1] +
+						vecNewDistance[2*iPos2];
+					const int rIR01xx = vecNewDistance[2*iPos3] +
+						vecNewDistance[2*iPos2+1];
+					const int rIR11xx = vecNewDistance[2*iPos3+1] +
+						vecNewDistance[2*iPos2+1];
 
 					vecrMetricSet[ 0] = rIR00xx + rIRxx00; /* 0 */
 					vecrMetricSet[ 2] = rIR00xx + rIRxx10; /* 2 */
