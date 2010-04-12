@@ -4,13 +4,23 @@
 #include "FXP.h"
 //#include "Vector.h"
 #include "GlobalDefinitions.h"
-#include "Puncture.h"
+//#include "Puncture.h"
 #include "tlm.h"
 #include "tlm_utils/simple_target_socket.h"
 
 #include <ostream>
 
 #define TOTAL_INSTANCES 6
+
+/* Puncturing --------------------------------------------------------------- */
+/* Only these types of patterns are used in DRM */
+#define PP_TYPE_0000					0 /* not used, dummy */
+#define PP_TYPE_1111					1
+#define PP_TYPE_0111					2
+#define PP_TYPE_0011					3
+#define PP_TYPE_0001					4
+#define PP_TYPE_0101					5
+#define LENGTH_TAIL_BIT_PAT				6
 
 using namespace sc_core;
 using namespace tlm;
