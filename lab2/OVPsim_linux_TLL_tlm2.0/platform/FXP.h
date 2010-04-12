@@ -80,6 +80,7 @@ public:
         FXP(long long x, int precision) : value(x>>(precision-FXP_PREC)) {};
 	~FXP(void) {};
 
+	void directCopy(int src) {this->value = src;};
 	/* Increment/Decrement */
 	FXP& operator++(void) {
 		value += FXP_ONE;

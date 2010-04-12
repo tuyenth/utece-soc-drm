@@ -111,7 +111,7 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 				nDeInput = data;
 				bytesReceived = 0;
 				//Initialize the memory for writing
-				pInput = (unsigned int*)vecNewDistance;
+				pInput = vecNewDistance;
 			}
 			//ToBeChanged
 			else if(base_addr == 0xd3000010) // The following 9 addresses are for init input
@@ -136,7 +136,8 @@ void MyViterbi::initiatorTransport(transaction_type& trans, sc_core::sc_time& t)
 			else if(base_addr >= 0xd3000200 && 
 				base_addr <= 0xd30002FC)
 			{
-				*(this->pInput) = data;
+				//*(this->pInput) = data;
+				this->pInput->directCopy(data);
 				this->pInput++;
 				bytesReceived += 4;
 				if(bytesReceived > nDeInput)
