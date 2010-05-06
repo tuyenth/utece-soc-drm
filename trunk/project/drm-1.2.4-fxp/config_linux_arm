@@ -1,0 +1,8 @@
+export CC='arm-linux-gcc'
+export CXX='arm-linux-g++ -fpermissive'
+export CXXFLAGS='--static -O2 -L/misc/scratch/wsu/project/drm-1.2.4-fxp/fft_lib/arm -I/misc/scratch/wsu/project/drm-1.2.4-fxp/fft_inc -L/misc/scratch/wsu/project/drm-1.2.4-fxp/faad2/libfaad/.libs -I/misc/scratch/wsu/project/drm-1.2.4-fxp/faad2/include'
+cd faad2
+./configure --host=arm-linux --disable-shared --with-drm
+make
+cd ..
+./configure --host=arm-linux --without-qtgui --disable-sound --disable-alsa --disable-simulation --without-pic  --disable-dependency-tracking  --without-faac
