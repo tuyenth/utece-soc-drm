@@ -23,9 +23,10 @@
 //Then follows all the output bits (integer)
 #define GOLDEN_FILE			"golden.txt.1"
 
-int* readPuncTable(char* file, int* iNumOutBits, int* iNumOutBitsWithMemory);
-_FREAL* readInput(char* file, int* iInputNum);
-_DECISION* readGolden(char* file, FXP* retValue, int* iOutputNum);
+int* readPuncTable(char* file, short* iNumOutBits, 
+	short * iNumOutBitsWithMemory);
+_FREAL* readInput(char* file, short* iInputNum);
+_DECISION* readGolden(char* file, FXP* retValue, short* iOutputNum);
 
 #ifdef CCS_SCVERIFY
     #define CCS_RETURN(x) return
@@ -37,9 +38,10 @@ _DECISION* readGolden(char* file, FXP* retValue, int* iOutputNum);
     int main()
 #endif
 {
-	int numOutBits, numOutBitsWithMemory;
+	short numOutBits, numOutBitsWithMemory;
 	int* pPuncTable;
-	int inputNum, gOutputNum, rOutputNum, i, same;
+	short inputNum, gOutputNum, rOutputNum;
+	int i, same;
 	FXP gRetValue, rRetValue;
 	_FREAL* pInput;
 	_DECISION* pGolden;
@@ -93,14 +95,14 @@ _DECISION* readGolden(char* file, FXP* retValue, int* iOutputNum);
 #endif
 }
 
-int* readPuncTable(char* file, int* iNumOutBits, int* iNumOutBitsWithMemory)
+int* readPuncTable(char* file, short* iNumOutBits, short* iNumOutBitsWithMemory)
 {
 	FILE* fp;
 	char buf[BUFSIZE];
 	int pindex;
 	int value;
 	int* table;
-	int numOutBits, numOutBitsWithMemory;
+	short numOutBits, numOutBitsWithMemory;
 
 	fp = fopen(file, "rt");
 
@@ -115,7 +117,7 @@ int* readPuncTable(char* file, int* iNumOutBits, int* iNumOutBitsWithMemory)
 		fprintf(stderr, "Error reading numOutBits in %s\n", file);
 		exit(1);
 	}
-	numOutBits = strtol(buf, NULL, 10);
+	numOutBits = (short)strtol(buf, NULL, 10);
 	printf("numOutBits = %d\n", numOutBits);
 
 	if(fgets(buf, BUFSIZE, fp) == NULL)
@@ -123,7 +125,7 @@ int* readPuncTable(char* file, int* iNumOutBits, int* iNumOutBitsWithMemory)
 		fprintf(stderr, "Error reading numOutBitsWithMemory in %s\n", file);
 		exit(1);
 	}
-	numOutBitsWithMemory = strtol(buf, NULL, 10);
+	numOutBitsWithMemory = (short)strtol(buf, NULL, 10);
 	printf("numOutBitsWithMemory = %d\n", numOutBitsWithMemory);
 
 	table = (int*)malloc(numOutBitsWithMemory*sizeof(int));
@@ -148,14 +150,14 @@ int* readPuncTable(char* file, int* iNumOutBits, int* iNumOutBitsWithMemory)
 	return table;
 }
 
-_FREAL* readInput(char* file, int* iInputNum)
+_FREAL* readInput(char* file, short* iInputNum)
 {
 	FILE* fp;
 	char buf[BUFSIZE];
 	int pindex;
 	double value;
 	_FREAL* table;
-	int inputNum;
+	short inputNum;
 
 	fp = fopen(file, "rt");
 
@@ -195,7 +197,7 @@ _FREAL* readInput(char* file, int* iInputNum)
 
 }
 
-_DECISION* readGolden(char* file, FXP* retValue, int* iOutputNum)
+_DECISION* readGolden(char* file, FXP* retValue, short* iOutputNum)
 {
 	FILE* fp;
 	char buf[BUFSIZE];

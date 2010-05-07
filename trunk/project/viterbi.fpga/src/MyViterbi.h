@@ -4,6 +4,7 @@
 #include "FXP.h"
 //#include "Vector.h"
 #include "GlobalDefinitions.h"
+#include <ac_fixed.h>
 //#include "Puncture.h"
 //#include "tlm.h"
 //#include "tlm_utils/simple_target_socket.h"
@@ -30,6 +31,7 @@
 typedef unsigned int 				UINT32;
 typedef FXP							_FREAL;
 typedef unsigned char/*bool*/		_BINARY;
+typedef ac_int<1, false>			MATTYPE;
 
 enum ECodScheme {CS_1_SM, CS_2_SM, CS_3_SM, CS_3_HMSYM, CS_3_HMMIX};
 enum EChanType {CT_MSC, CT_SDC, CT_FAC};
@@ -49,10 +51,10 @@ enum ECommand {READ_COMMAND, WRITE_COMMAND};
 #define INUMOUTBITS				72
 #define INUMOUTBITSWITHMEMORY	78
 #define INPUTSIZE				130
-FXP PureDecode(int iNumOutBits, int	iNumOutBitsWithMemory, 
+FXP PureDecode(short iNumOutBits, short iNumOutBitsWithMemory, 
 		int veciTablePuncPat[INUMOUTBITSWITHMEMORY],
-		int nDeInput, _FREAL vecNewDistance[INPUTSIZE*2],
-		int* nDeOutput, _DECISION vecOutputBits[INUMOUTBITS]);
+		short nDeInput, _FREAL vecNewDistance[INPUTSIZE*2],
+		short* nDeOutput, _DECISION vecOutputBits[INUMOUTBITS]);
 
 #ifdef USE_CLASS
 //SC_MODULE(MyViterbi)

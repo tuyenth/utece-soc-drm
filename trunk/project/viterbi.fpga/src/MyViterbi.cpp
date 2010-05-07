@@ -25,12 +25,17 @@ _FREAL* MyMemcpy(_FREAL* dest, _FREAL* src, int n)
 
 //len: number of bytes
 #pragma hls_design top
-FXP PureDecode(int iNumOutBits, int	iNumOutBitsWithMemory, 
+//Use ac_int<8, false> for vecNewDistance
+//Use ac_int<1, false> for vecOutputBits, concatenate single bits into bytes
+//Use ac_int<1, false> for matdecDecisions
+//Use ac_int<4, false> for veciTablePuncPat(or ac_int<3, 0> if block RAM is used
+FXP PureDecode(short iNumOutBits, short	iNumOutBitsWithMemory, 
 		int veciTablePuncPat[INUMOUTBITSWITHMEMORY],
-		int nDeInput, _FREAL vecNewDistance[INPUTSIZE*2],
-		int* nDeOutput, _DECISION vecOutputBits[INUMOUTBITS])
+		short nDeInput, _FREAL vecNewDistance[INPUTSIZE*2],
+		short* nDeOutput, _DECISION vecOutputBits[INUMOUTBITS])
 {
-	static _DECISIONTYPE   matdecDecisions[INUMOUTBITSWITHMEMORY][MC_NUM_STATES];
+	//static _DECISIONTYPE  matdecDecisions[INUMOUTBITSWITHMEMORY][MC_NUM_STATES];
+	static MATTYPE  matdecDecisions[INUMOUTBITSWITHMEMORY][MC_NUM_STATES];
 	static int			vecTrelMetric1[MC_NUM_STATES];
 	static int			vecTrelMetric2[MC_NUM_STATES];
 	static int			vecrMetricSet[MC_NUM_OUTPUT_COMBINATIONS];
@@ -346,7 +351,7 @@ FXP InvokeViterbi(int cmd, InitData* init, int nInput, _FREAL* input, int* nOutp
 	return ret;
 }
 */
-#if 0
+
 void initiatorTransport(UINT32 addr, UINT32* dataPtr, UINT32 len, ECommand command)
 {
     //Uns64 addr     = trans.get_address();
@@ -504,11 +509,11 @@ void initiatorTransport(UINT32 addr, UINT32* dataPtr, UINT32 len, ECommand comma
 }
 
 #endif
-
+/*
 int* MyViterbi::RetPuncTabPat()
 {
 	return veciTablePuncPat;
-}
+}*/
 /*
 int* MyViterbi::RetPuncTabPat()
 {
@@ -537,6 +542,9 @@ int* MyViterbi::RetPuncTabPat()
     return ret;
 }
 */
+
+
+#if 0
 MyViterbi::MyViterbi()
 {
 	//SC_HAS_PROCESS(MyViterbi);
