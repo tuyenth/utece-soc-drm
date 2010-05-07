@@ -29,9 +29,9 @@ _FREAL* MyMemcpy(_FREAL* dest, _FREAL* src, int n)
 //Use ac_int<1, false> for vecOutputBits, concatenate single bits into bytes
 //Use ac_int<1, false> for matdecDecisions
 //Use ac_int<4, false> for veciTablePuncPat(or ac_int<3, 0> if block RAM is used
-FXP PureDecode(short iNumOutBits, short	iNumOutBitsWithMemory, 
-		int veciTablePuncPat[INUMOUTBITSWITHMEMORY],
-		short nDeInput, _FREAL vecNewDistance[INPUTSIZE*2],
+short PureDecode(short iNumOutBits, short	iNumOutBitsWithMemory, 
+		PUNCTYPE veciTablePuncPat[INUMOUTBITSWITHMEMORY],
+		short nDeInput, DISTTYPE vecNewDistance[INPUTSIZE*2],
 		short* nDeOutput, _DECISION vecOutputBits[INUMOUTBITS])
 {
 	//static _DECISIONTYPE  matdecDecisions[INUMOUTBITSWITHMEMORY][MC_NUM_STATES];
@@ -310,7 +310,7 @@ FXP PureDecode(short iNumOutBits, short	iNumOutBitsWithMemory,
 	// return pOldTrelMetric[0] / iDistCnt;
 
 #ifdef RET_ACC
-	FXP retValue = pOldTrelMetric[0] / iDistCnt;
+	short retValue = pOldTrelMetric[0] / iDistCnt;
 	return retValue;
 #else
 	return 0;
@@ -329,7 +329,7 @@ FXP PureDecode(short iNumOutBits, short	iNumOutBitsWithMemory,
 	*/
 }
 
-#ifdef USE_CLASS
+#if USE_CLASS
 /*
 FXP InvokeViterbi(int cmd, InitData* init, int nInput, _FREAL* input, int* nOutput, _DECISION* output)
 {
