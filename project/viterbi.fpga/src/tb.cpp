@@ -23,10 +23,10 @@
 //Then follows all the output bits (integer)
 #define GOLDEN_FILE			"golden.txt.1"
 
-int* readPuncTable(char* file, short* iNumOutBits, 
+PUNCTYPE* readPuncTable(char* file, short* iNumOutBits, 
 	short * iNumOutBitsWithMemory);
-_FREAL* readInput(char* file, short* iInputNum);
-_DECISION* readGolden(char* file, FXP* retValue, short* iOutputNum);
+DISTTYPE* readInput(char* file, short* iInputNum);
+_DECISION* readGolden(char* file, short* retValue, short* iOutputNum);
 
 #ifdef CCS_SCVERIFY
     #define CCS_RETURN(x) return
@@ -39,11 +39,11 @@ _DECISION* readGolden(char* file, FXP* retValue, short* iOutputNum);
 #endif
 {
 	short numOutBits, numOutBitsWithMemory;
-	int* pPuncTable;
+	PUNCTYPE* pPuncTable;
 	short inputNum, gOutputNum, rOutputNum;
 	int i, same;
-	FXP gRetValue, rRetValue;
-	_FREAL* pInput;
+	short gRetValue, rRetValue;
+	DISTTYPE* pInput;
 	_DECISION* pGolden;
 	_DECISION pOutput[INUMOUTBITS];
 
@@ -95,13 +95,13 @@ _DECISION* readGolden(char* file, FXP* retValue, short* iOutputNum);
 #endif
 }
 
-int* readPuncTable(char* file, short* iNumOutBits, short* iNumOutBitsWithMemory)
+PUNCTYPE* readPuncTable(char* file, short* iNumOutBits, short* iNumOutBitsWithMemory)
 {
 	FILE* fp;
 	char buf[BUFSIZE];
 	int pindex;
 	int value;
-	int* table;
+	PUNCTYPE* table;
 	short numOutBits, numOutBitsWithMemory;
 
 	fp = fopen(file, "rt");
@@ -128,7 +128,7 @@ int* readPuncTable(char* file, short* iNumOutBits, short* iNumOutBitsWithMemory)
 	numOutBitsWithMemory = (short)strtol(buf, NULL, 10);
 	printf("numOutBitsWithMemory = %d\n", numOutBitsWithMemory);
 
-	table = (int*)malloc(numOutBitsWithMemory*sizeof(int));
+	table = (PUNCTYPE*)malloc(numOutBitsWithMemory*sizeof(PUNCTYPE));
 
 	for(pindex = 0; pindex < numOutBitsWithMemory; pindex++)
 	{
@@ -150,13 +150,13 @@ int* readPuncTable(char* file, short* iNumOutBits, short* iNumOutBitsWithMemory)
 	return table;
 }
 
-_FREAL* readInput(char* file, short* iInputNum)
+DISTTYPE* readInput(char* file, short* iInputNum)
 {
 	FILE* fp;
 	char buf[BUFSIZE];
 	int pindex;
 	double value;
-	_FREAL* table;
+	DISTTYPE* table;
 	short inputNum;
 
 	fp = fopen(file, "rt");
@@ -175,7 +175,7 @@ _FREAL* readInput(char* file, short* iInputNum)
 	inputNum = strtol(buf, NULL, 10);
 	printf("inputNum = %d\n", inputNum);
 
-	table = (_FREAL*)malloc(inputNum*2*sizeof(_FREAL));
+	table = (DISTTYPE*)malloc(inputNum*2*sizeof(DISTTYPE));
 
 	for(pindex = 0; pindex < inputNum*2; pindex++)
 	{
@@ -197,12 +197,12 @@ _FREAL* readInput(char* file, short* iInputNum)
 
 }
 
-_DECISION* readGolden(char* file, FXP* retValue, short* iOutputNum)
+_DECISION* readGolden(char* file, short* retValue, short* iOutputNum)
 {
 	FILE* fp;
 	char buf[BUFSIZE];
 	int pindex;
-	double tRetValue;
+	short tRetValue;
 	_DECISION value;
 	_DECISION* table;
 	int outputNum;
@@ -220,8 +220,8 @@ _DECISION* readGolden(char* file, FXP* retValue, short* iOutputNum)
 		fprintf(stderr, "Error reading ret value in %s\n", file);
 		exit(1);
 	}
-	tRetValue = strtod(buf, NULL);
-	printf("tRetValue = %f\n", tRetValue);
+	tRetValue = (short)strtol(buf, NULL, 10);
+	printf("tRetValue = %d\n", tRetValue);
 
 	if(fgets(buf, BUFSIZE, fp) == NULL)
 	{
