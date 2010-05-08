@@ -1,5 +1,4 @@
 #include "MyViterbi.h"
-//#include "arm.h"
 
 //the number of bytes copied must be a multiple of 4
 #if 0

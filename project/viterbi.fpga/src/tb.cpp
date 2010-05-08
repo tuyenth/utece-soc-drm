@@ -63,8 +63,9 @@ _DECISION* readGolden(char* file, short* retValue, short* iOutputNum);
 	same = 1;
 	for(i = 0; i < rOutputNum; i++)
 	{
-			printf("pOutput,pgolden =%d,%d", pOutput[i],pGolden[i]);
-			if(pOutput[i] != pGolden[i])
+		printf("pOutput,pgolden =%d,%d\t", (int)pOutput[i], (int)pGolden[i]);
+			printf("\n");
+		if(pOutput[i] != pGolden[i])
 			same = 0;
 	}
 	printf("same = %d\n", same);
